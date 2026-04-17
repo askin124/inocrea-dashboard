@@ -19,7 +19,8 @@
   --sans:'Instrument Sans',sans-serif;--mono:'Instrument Mono',monospace;--r:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{font-family:var(--sans);background:#0F0F0D;color:var(--ink);font-size:14px;line-height:1.5;height:100vh;overflow:hidden}
+#app{background:var(--paper);flex-direction:column;height:100vh;overflow:hidden}
 .hd{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;flex-shrink:0}
 .hd-brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:1.5px;display:flex;align-items:center;gap:12px}
 .hd-brand em{color:#5EE8A4;font-style:normal}
@@ -205,13 +206,40 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </head>
 <body>
 
+<!-- LOGIN -->
+<div id="login-screen" style="display:flex;position:fixed;inset:0;background:#0F0F0D;z-index:9999;align-items:center;justify-content:center">
+  <div style="width:340px;background:#1a1a18;border:1px solid #2a2a28;border-radius:14px;padding:36px 32px">
+    <div style="font-family:'Instrument Mono',monospace;font-size:13px;font-weight:500;letter-spacing:1.5px;color:#fff;margin-bottom:4px">INO<span style="color:#5EE8A4">CREA</span></div>
+    <div style="font-size:11px;color:#555;margin-bottom:28px;font-family:'Instrument Mono',monospace">Dashboard · Accès restreint</div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:10px;color:#666;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;font-family:'Instrument Mono',monospace">Identifiant</label>
+      <input id="login-user" type="text" autocomplete="username" onkeydown="handleLoginKey(event)"
+        style="width:100%;padding:10px 12px;background:#111;border:1px solid #2a2a28;border-radius:7px;color:#fff;font-size:13px;font-family:'Instrument Sans',sans-serif;outline:none;box-sizing:border-box"
+        onfocus="this.style.borderColor='#5EE8A4'" onblur="this.style.borderColor='#2a2a28'">
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:10px;color:#666;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;font-family:'Instrument Mono',monospace">Mot de passe</label>
+      <input id="login-pass" type="password" autocomplete="current-password" onkeydown="handleLoginKey(event)"
+        style="width:100%;padding:10px 12px;background:#111;border:1px solid #2a2a28;border-radius:7px;color:#fff;font-size:13px;font-family:'Instrument Sans',sans-serif;outline:none;box-sizing:border-box"
+        onfocus="this.style.borderColor='#5EE8A4'" onblur="this.style.borderColor='#2a2a28'">
+    </div>
+    <div id="login-err" style="display:none;font-size:11px;color:#D03030;margin-bottom:14px;background:#2a1010;padding:8px 10px;border-radius:6px"></div>
+    <button onclick="doLogin()" style="width:100%;padding:11px;background:#5EE8A4;color:#0F0F0D;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif">
+      Connexion
+    </button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;flex-direction:column;height:100vh">
+
 <div class="ov" id="ov"><div class="lc"><div class="spin"></div><h3>Analyse en cours…</h3><p>Traitement données Inocrea</p></div></div>
 
 <div class="hd">
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:00</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:03</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -1053,11 +1081,13 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 </div><!-- /body -->
 
+</div><!-- /app -->
+
 <script>
-// DATA_START — généré le 2026-04-17 à 14:00
+// DATA_START — généré le 2026-04-17 à 14:03
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:00",
+  "heure": "14:03",
   "pipeline": {
     "rdv_pris": 68,
     "negociation": 23,
@@ -1150,7 +1180,7 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 70,
+    "tickets_jour": 69,
     "activations_jour": 2,
     "activations_pct": 3,
     "reouverts_jour": 0,
@@ -2277,6 +2307,39 @@ function toggleQuestions(){
   document.getElementById('badge-alertes').style.display=crit?'':'none';
 })();
 
+
+// ── AUTH ──────────────────────────────────────────────────
+const AUTH_HASH = '8ad5e3fbe3d2d299d1e72f060f77f56c4953788906a3dcac7fca32217ba90938';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err  = document.getElementById('login-err');
+  const hash = await sha256(`${user}:${pass}`);
+  if (hash === AUTH_HASH) {
+    sessionStorage.setItem('ino_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+  } else {
+    err.textContent = 'Identifiant ou mot de passe incorrect.';
+    err.style.display = 'block';
+    document.getElementById('login-pass').value = '';
+  }
+}
+
+function handleLoginKey(e) { if (e.key === 'Enter') doLogin(); }
+
+(function checkAuth() {
+  if (sessionStorage.getItem('ino_auth') === '1') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+  }
+})();
 </script>
 </body>
 </html>

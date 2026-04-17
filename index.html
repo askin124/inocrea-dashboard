@@ -211,7 +211,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 12:23</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 13:48</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -991,7 +991,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   </div>
 </div>
 
-</div><!-- ═══ LIVE QUOTIDIEN ═══ -->
+<!-- ═══ LIVE QUOTIDIEN ═══ -->
 <div class="tc" id="tab-live">
   <div id="live-empty" style="text-align:center;padding:40px 16px;color:var(--ink3)">
     <div style="font-size:28px;margin-bottom:8px">📡</div>
@@ -1000,8 +1000,9 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   </div>
   <div id="live-content" style="display:none"></div>
 </div>
+</div><!-- /main-body -->
 
-</div></div><!-- /main -->
+</div><!-- /main -->
 
 <!-- CHAT PANEL -->
 <div class="chat-panel">
@@ -1053,20 +1054,20 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 12:23
+// DATA_START — généré le 2026-04-17 à 13:48
 const DATA = {
   "date": "2026-04-17",
-  "heure": "12:23",
+  "heure": "13:48",
   "pipeline": {
-    "rdv_pris": 67,
-    "negociation": 24,
+    "rdv_pris": 68,
+    "negociation": 23,
     "attente_wl": 17,
     "en_correction": 2,
     "val_financement": 4,
     "traitement_ubo": 7,
     "renting_incomplet": 2,
-    "closing_imminent": 5,
-    "valeur_totale": 92731
+    "closing_imminent": 4,
+    "valeur_totale": 92082
   },
   "pipeline_par_type": {
     "WL": 0,
@@ -1074,7 +1075,7 @@ const DATA = {
     "INO": 0
   },
   "gagnes_7j": {
-    "total": 13,
+    "total": 14,
     "WL": 0,
     "MP": 0,
     "INO": 0
@@ -1122,11 +1123,11 @@ const DATA = {
       "val_pipe": 0
     },
     "Tarik Burazerovic": {
-      "gagnes_7j": 1,
+      "gagnes_7j": 2,
       "ps_7j": 3,
-      "corrections_30j": 33,
-      "en_nego": 5,
-      "val_pipe": 16054
+      "corrections_30j": 32,
+      "en_nego": 4,
+      "val_pipe": 15405
     }
   },
   "finances": {
@@ -1144,6 +1145,11 @@ const DATA = {
     "dubail_age_jours": null
   },
   "give_backs_en_attente": [
+    {
+      "client": "RENTING / Moretti, Julien / BE1018247996",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
     {
       "client": "Renting /beaute et vie",
       "age_jours": 0,
@@ -1221,7 +1227,7 @@ const DATA = {
     },
     {
       "client": "Renting / Numerical Artefacts Museum - Informatique Pionniere ASBL (NAM-IP)//BE0543898794",
-      "age_jours": 2,
+      "age_jours": 3,
       "raison": "Non défini"
     },
     {
@@ -1236,7 +1242,7 @@ const DATA = {
     },
     {
       "client": "MP/RENTING / Boyarkina Jelena / BE0400613562",
-      "age_jours": 3,
+      "age_jours": 4,
       "raison": "Non défini"
     },
     {
@@ -1261,7 +1267,7 @@ const DATA = {
     },
     {
       "client": "Renting /Docquier, Gwennaelle //BE0788529232",
-      "age_jours": 3,
+      "age_jours": 4,
       "raison": "Non défini"
     },
     {
@@ -1306,7 +1312,7 @@ const DATA = {
     },
     {
       "client": "LOCATION / Systeme de Caisse /Taha 23 BV",
-      "age_jours": 6,
+      "age_jours": 7,
       "raison": "Non défini"
     },
     {
@@ -1336,7 +1342,7 @@ const DATA = {
     },
     {
       "client": "MP/ACHAT / MAISON BOUSHABA SRL / BE0462758987",
-      "age_jours": 6,
+      "age_jours": 7,
       "raison": "Non défini"
     },
     {
@@ -1366,7 +1372,7 @@ const DATA = {
     },
     {
       "client": "Renting / Garage Polytech SRL//BE0442122238",
-      "age_jours": 7,
+      "age_jours": 8,
       "raison": "Non défini"
     },
     {
@@ -1431,12 +1437,12 @@ const DATA = {
     },
     {
       "client": "Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
       "client": "Atos / pprdv / Mme mutombo / BE0415653413",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1591,7 +1597,7 @@ const DATA = {
     },
     {
       "client": "RENTING / ALKACOMPANY SRL",
-      "age_jours": 9,
+      "age_jours": 10,
       "raison": "Non défini"
     },
     {
@@ -1638,18 +1644,13 @@ const DATA = {
       "client": "RENTING / Trombello, Giuseppe / BE0810253470",
       "age_jours": 15,
       "raison": "Non défini"
-    },
-    {
-      "client": "RENTING / Da Silva Sousa Tsoulelis , Eftykia. Tsoulelis Sousa , Ioannis / BE0476945337",
-      "age_jours": 15,
-      "raison": "Non défini"
     }
   ],
   "alertes": [
     {
       "niveau": "CRITIQUE",
       "module": "CRM",
-      "titre": "Tarik Burazerovic — 33 corrections/30j",
+      "titre": "Tarik Burazerovic — 32 corrections/30j",
       "action": "Session coaching individuelle cette semaine"
     }
   ],

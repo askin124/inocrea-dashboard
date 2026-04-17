@@ -211,7 +211,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 12:22</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 12:23</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -232,7 +232,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     <button class="ni" onclick="switchTab('desk-deep',this)"><span class="ni-ic">📞</span>Desk · Appels</button>
     <button class="ni" onclick="switchTab('frictions',this)"><span class="ni-ic">🚨</span>Frictions process</button>
     <button class="ni" onclick="switchTab('rapport',this)"><span class="ni-ic">✦</span>Rapport IA</button>
-    <button class="ni" onclick="switchTab('live',this)"><span class="ni-ic">📡</span>Live quotidien<span class="nb nb-r" id="badge-alertes">0</span></button>
+    <button class="ni" onclick="switchTab('live',this)"><span class="ni-ic">📡</span>Live quotidien<span class="nb nb-r" id="badge-alertes">1</span></button>
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">Config</div>
@@ -1053,20 +1053,20 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 12:22
+// DATA_START — généré le 2026-04-17 à 12:23
 const DATA = {
   "date": "2026-04-17",
-  "heure": "12:22",
+  "heure": "12:23",
   "pipeline": {
-    "rdv_pris": 0,
-    "negociation": 0,
-    "attente_wl": 0,
-    "en_correction": 0,
-    "val_financement": 0,
-    "traitement_ubo": 0,
-    "renting_incomplet": 0,
-    "closing_imminent": 0,
-    "valeur_totale": 0
+    "rdv_pris": 67,
+    "negociation": 24,
+    "attente_wl": 17,
+    "en_correction": 2,
+    "val_financement": 4,
+    "traitement_ubo": 7,
+    "renting_incomplet": 2,
+    "closing_imminent": 5,
+    "valeur_totale": 92731
   },
   "pipeline_par_type": {
     "WL": 0,
@@ -1074,13 +1074,13 @@ const DATA = {
     "INO": 0
   },
   "gagnes_7j": {
-    "total": 0,
+    "total": 13,
     "WL": 0,
     "MP": 0,
     "INO": 0
   },
   "ps_7j": {
-    "total": 0,
+    "total": 29,
     "WL": 0,
     "MP": 0,
     "INO": 0
@@ -1122,11 +1122,11 @@ const DATA = {
       "val_pipe": 0
     },
     "Tarik Burazerovic": {
-      "gagnes_7j": 0,
-      "ps_7j": 0,
-      "corrections_30j": 0,
-      "en_nego": 0,
-      "val_pipe": 0
+      "gagnes_7j": 1,
+      "ps_7j": 3,
+      "corrections_30j": 33,
+      "en_nego": 5,
+      "val_pipe": 16054
     }
   },
   "finances": {
@@ -1143,14 +1143,522 @@ const DATA = {
     "tickets_anciens": 0,
     "dubail_age_jours": null
   },
-  "give_backs_en_attente": [],
-  "alertes": [],
+  "give_backs_en_attente": [
+    {
+      "client": "Renting /beaute et vie",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Miltoni Bangu / BE1034857069",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Neyman//BE0645817486",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Landrin maxime / BE0674944014",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP / ACHAT / ALBEXH SPRL",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Atos / PPRDV / Mr eggerickx / BE0430778978",
+      "age_jours": 1,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Commande Rouleau / 1 boite Yomani",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Atos / pprdv / Mme demarre/ be0808839547",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Deridder / Rue Albert Premier 51, 6560 ERQUELINNES/BE0207300876/",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Achat / celaidis constantino PP",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Schill Olivier / BE0402049855",
+      "age_jours": 1,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / El Bakkali , Achraf / BE0643799094",
+      "age_jours": 1,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Verre et design//BE0524801078",
+      "age_jours": 1,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING/CAVELIN//BE0831722639",
+      "age_jours": 2,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / BeeBox world Scrl//BE0665702387",
+      "age_jours": 2,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Numerical Artefacts Museum - Informatique Pionniere ASBL (NAM-IP)//BE0543898794",
+      "age_jours": 2,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / ROSSOLINO / BE0864960678",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Bousse , Véronique / BE0896877440",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Boyarkina Jelena / BE0400613562",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/lartsprl/BE0604980585",
+      "age_jours": 2,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Commande Rouleaux / 3 boites YOXIMO",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Oh bio Mio",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/brico bey",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting /Docquier, Gwennaelle //BE0788529232",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "ok JULIETTE / Rue des Renards 28, 1000 Bruxelles//BE0637864377",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Hanan SPRL//BE0456103601",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Rue de Huy 73, 4280 hannut//LUGOJAN",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Chau. de Waterloo 522, 1050 Bruxelles/ / BE0430343765",
+      "age_jours": 3,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / 18 RUE PONT DE BONNE, 4577 MODAVE//GUIOT",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / 239 CHAUSSÉE DE TIRLEMONT, 4520 WANZE//PETRE",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/gevogelte//BE0685889770",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Night shop//BE0840842124",
+      "age_jours": 4,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / Systeme de Caisse /Taha 23 BV",
+      "age_jours": 6,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / MPJ SRL",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / KRIVIDA SA",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "ACHAT / GOURDIN MOTOR SA",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / Diamz et co SPRL / BE0643688931",
+      "age_jours": 6,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / Krismart SRL",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/ACHAT / MAISON BOUSHABA SRL / BE0462758987",
+      "age_jours": 6,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/Bati-Fast sprl/BE0865537730",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / 246 CHÉE DE ROODEBEEK, 1200 WOLUWE-SAINT-LAMBERT// DETOMBE",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Cabinet dentaire delaisse SPRL/BE0474453229",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / MYSHOP SRL",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Commande Rouleaux / 1 boite Yomani",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Garage Polytech SRL//BE0442122238",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP / RENTING / CBVA SRL",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Atos / pprdv / Mr lebecq / BE0434253063",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Atos / pprdv / Mr Yadin / BE0502282529",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / GUNEL, IBRAHIM PP",
+      "age_jours": 7,
+      "raison": "Non défini"
+    },
+    {
+      "client": "renting/carimar sa//BE0401486760",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Rue du Joncquoy 42, 7602 BURY//BE0455602268",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Commande Rouleaux / 2 boites yoximo",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Atos / pprdv / Mme mutombo / BE0415653413",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Lemcirdi, Hamza / BE1006419738",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Da Silva Sousa Tsoulelis , Eftykia. Tsoulelis Sousa , Ioannis / BE0476945337",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Doudelet D.SRL - Onboarding",
+      "age_jours": 8,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Dobruna , Lorik / BE0636760755",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Chamberlan , Ludovic / BE1007480206",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Avenue Frans Van Kalken 6 B103, 1070 Anderlecht/KHETTAB/BE0478907410",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Wiggers , Jean-Michel / BE0448194537",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / CHRISTOPHE STALS / BE0694606013",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Miltoni Bangu / BE1034857069",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Cabinet dentaire coen et glibert SPRL//BE0870432765",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Rue de Gozee 623, 6110 MONTIGNY-LE-TILLEUL//THOUMSIN",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/RENTING / Ibourk, Hassan / BE1033966550",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/ RENTING / Van Moffaert , Morgane / BE0662810995",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING /MALTING POT SRL",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/lachiquetterie/BE0436724187",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/Pharmacie Daniel/BE0467947004",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / KKR BUSINESS SRL",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/Quincaillerie de la gare/BE0417296275",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/Egetex",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / MAZUIN.A SAMBREVILLE SA",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting/Deco Center/BE0896516659",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / GALLO JAUGE SERVICES SPRL",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Mme Denamur / BE0861465215",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / avenue albert 2, 1190 BRUXELLES/BLOCH",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING/ 47 RUE ENTRE-DEUX-VILLES, 4670 BLÉGNY//LEHANE",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / 4 RUE DE LA SAMBRE, 6032 CHARLEROI//DI MARIA",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / AM Foods SRL",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / ALKACOMPANY SRL",
+      "age_jours": 9,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / HBG KOCHI SRL",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Parquet no 1 SA//BE0472081182",
+      "age_jours": 10,
+      "raison": "Non défini"
+    },
+    {
+      "client": "LOCATION / ASAS SRL",
+      "age_jours": 12,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Nanni Gregory PP",
+      "age_jours": 13,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Renting / Atos / Saey Automobile SPRL/BE0882415532",
+      "age_jours": 14,
+      "raison": "Non défini"
+    },
+    {
+      "client": "Iftikhar / sprl pardesi / Rue Américaine 92 1050 Ixelles/BE0452108981",
+      "age_jours": 14,
+      "raison": "Non défini"
+    },
+    {
+      "client": "MP/ DE MEYER / 165 CHAUSSÉE DE BRUXELLES, 1410 WATERLOO//BE0440884992",
+      "age_jours": 14,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / DEFER / BE0412394510",
+      "age_jours": 14,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Trombello, Giuseppe / BE0810253470",
+      "age_jours": 15,
+      "raison": "Non défini"
+    },
+    {
+      "client": "RENTING / Da Silva Sousa Tsoulelis , Eftykia. Tsoulelis Sousa , Ioannis / BE0476945337",
+      "age_jours": 15,
+      "raison": "Non défini"
+    }
+  ],
+  "alertes": [
+    {
+      "niveau": "CRITIQUE",
+      "module": "CRM",
+      "titre": "Tarik Burazerovic — 33 corrections/30j",
+      "action": "Session coaching individuelle cette semaine"
+    }
+  ],
   "scores": {
-    "pipeline": 100,
-    "commercial": 100,
+    "pipeline": 45,
+    "commercial": 85,
     "financier": 100,
     "desk": 100,
-    "global": 100
+    "global": 79
   }
 };
 // DATA_END

@@ -19,8 +19,7 @@
   --sans:'Instrument Sans',sans-serif;--mono:'Instrument Mono',monospace;--r:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:#0F0F0D;color:var(--ink);font-size:14px;line-height:1.5;height:100vh;overflow:hidden}
-#app{background:var(--paper);flex-direction:column;height:100vh;overflow:hidden}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .hd{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;flex-shrink:0}
 .hd-brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:1.5px;display:flex;align-items:center;gap:12px}
 .hd-brand em{color:#5EE8A4;font-style:normal}
@@ -230,16 +229,13 @@ body{font-family:var(--sans);background:#0F0F0D;color:var(--ink);font-size:14px;
   </div>
 </div>
 
-<!-- APP -->
-<div id="app" style="display:none;flex-direction:column;height:100vh">
-
 <div class="ov" id="ov"><div class="lc"><div class="spin"></div><h3>Analyse en cours…</h3><p>Traitement données Inocrea</p></div></div>
 
 <div class="hd">
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:03</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:07</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -1081,13 +1077,11 @@ body{font-family:var(--sans);background:#0F0F0D;color:var(--ink);font-size:14px;
 
 </div><!-- /body -->
 
-</div><!-- /app -->
-
 <script>
-// DATA_START — généré le 2026-04-17 à 14:03
+// DATA_START — généré le 2026-04-17 à 14:07
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:03",
+  "heure": "14:07",
   "pipeline": {
     "rdv_pris": 68,
     "negociation": 23,
@@ -1180,7 +1174,7 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 69,
+    "tickets_jour": 70,
     "activations_jour": 2,
     "activations_pct": 3,
     "reouverts_jour": 0,
@@ -1230,7 +1224,7 @@ const DATA = {
     },
     {
       "client": "Atos / pprdv / Mme demarre/ be0808839547",
-      "age_jours": 0,
+      "age_jours": 1,
       "raison": "Non défini"
     },
     {
@@ -2324,7 +2318,6 @@ async function doLogin() {
   if (hash === AUTH_HASH) {
     sessionStorage.setItem('ino_auth', '1');
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
   } else {
     err.textContent = 'Identifiant ou mot de passe incorrect.';
     err.style.display = 'block';
@@ -2337,7 +2330,6 @@ function handleLoginKey(e) { if (e.key === 'Enter') doLogin(); }
 (function checkAuth() {
   if (sessionStorage.getItem('ino_auth') === '1') {
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
   }
 })();
 </script>

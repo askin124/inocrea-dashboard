@@ -157,7 +157,6 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .it-b{background:var(--blue-bg);color:var(--blue)}.it-g{background:var(--green-bg);color:var(--green)}
 
 /* CHAT */
-.chat-panel{width:280px;flex-shrink:0;background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;min-height:0}
 .chat-header{padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;background:var(--white)}
 .chat-header-l{display:flex;align-items:center;gap:7px}
 .chat-avatar{width:24px;height:24px;background:linear-gradient(135deg,#5EE8A4,#60A5FA);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
@@ -200,7 +199,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .lc p{font-size:10px;color:var(--ink3)}
 
 @media(max-width:860px){.sb{display:none}}
-@media(max-width:700px){.chat-panel{display:none}.kpis.k4{grid-template-columns:1fr 1fr}.g2,.g3{grid-template-columns:1fr}}
+@media(max-width:700px){.kpis.k4{grid-template-columns:1fr 1fr}.g2,.g3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -235,7 +234,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:07</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:27</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -257,6 +256,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     <button class="ni" onclick="switchTab('frictions',this)"><span class="ni-ic">🚨</span>Frictions process</button>
     <button class="ni" onclick="switchTab('rapport',this)"><span class="ni-ic">✦</span>Rapport IA</button>
     <button class="ni" onclick="switchTab('live',this)"><span class="ni-ic">📡</span>Live quotidien<span class="nb nb-r" id="badge-alertes">1</span></button>
+    <button class="ni" onclick="switchTab('chat',this)"><span class="ni-ic">✦</span>Copilote IA</button>
   </div>
   <div class="sb-sec">
     <div class="sb-lbl">Config</div>
@@ -287,6 +287,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <button class="tb" onclick="switchTab('frictions',null,this)">🚨 Frictions</button>
   <button class="tb" onclick="switchTab('rapport',null,this)">Rapport IA</button>
   <button class="tb" onclick="switchTab('live',null,this)">📡 Live</button>
+  <button class="tb" onclick="switchTab('chat',null,this)">✦ Copilote IA</button>
 </div>
 <div class="main-body">
 
@@ -1015,6 +1016,41 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   </div>
 </div>
 
+<!-- ═══ COPILOTE IA ═══ -->
+<div class="tc" id="tab-chat" style="display:none;flex-direction:column;height:100%">
+  <div style="display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--white)">
+    <div style="width:32px;height:32px;background:linear-gradient(135deg,#5EE8A4,#60A5FA);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">✦</div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--ink)">Copilote IA</div>
+      <div style="font-size:11px;color:var(--ink3)" id="chat-status">En ligne</div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;max-width:600px">
+      <button class="qq-chip" onclick="askQ(this)">Cacopardo 47% corrections ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Réduire délai envoi WL ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Purger dossiers zombie ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Meilleurs commerciaux actifs ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Give Back 93j — accélérer ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Vermeulen vs Burazerovic ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Top 5 actions semaine</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px">
+    <div class="msg ai">
+      <div class="msg-av ai">✦</div>
+      <div>
+        <div class="msg-bubble">Connecté aux données d'Inocrea.<br><br>Temps par étape, <strong>taux de correction</strong> par commercial, délais WL, Desk — posez vos questions.</div>
+        <div class="msg-time">Maintenant</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;align-items:flex-end;background:var(--white)">
+    <textarea class="chat-input" id="chat-input" placeholder="Votre question…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)" style="flex:1"></textarea>
+    <button class="chat-send" id="chat-send" onclick="sendMsg()" style="width:36px;height:36px;flex-shrink:0">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
+  </div>
+</div>
+
 <!-- ═══ LIVE QUOTIDIEN ═══ -->
 <div class="tc" id="tab-live">
   <div id="live-empty" style="text-align:center;padding:40px 16px;color:var(--ink3)">
@@ -1028,60 +1064,13 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 </div><!-- /main -->
 
-<!-- CHAT PANEL -->
-<div class="chat-panel">
-  <div class="chat-header">
-    <div class="chat-header-l">
-      <div class="chat-avatar">✦</div>
-      <div>
-        <div class="chat-title">Copilote IA</div>
-        <div class="chat-sub" id="chat-status">En ligne</div>
-      </div>
-    </div>
-    <button onclick="toggleQuestions()" style="background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:10px;cursor:pointer;color:var(--ink3);font-family:var(--mono)" id="qq-toggle">Q ▾</button>
-  </div>
-
-  <!-- Questions rapides (collapsibles) -->
-  <div id="chat-qq" style="border-bottom:1px solid var(--border);flex-shrink:0;max-height:110px;overflow-y:auto;padding:7px 10px">
-    <div class="qq-chips">
-      <button class="qq-chip" onclick="askQ(this)">Cacopardo 47% corrections ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Réduire délai envoi WL ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Purger dossiers zombie ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Meilleurs commerciaux actifs ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Give Back 93j — accélérer ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Plan Eurofides</button>
-      <button class="qq-chip" onclick="askQ(this)">Vermeulen vs Burazerovic ?</button>
-      <button class="qq-chip" onclick="askQ(this)">Top 5 actions semaine</button>
-    </div>
-  </div>
-
-  <!-- Messages -->
-  <div class="chat-messages" id="chat-messages">
-    <div class="msg ai">
-      <div class="msg-av ai">✦</div>
-      <div>
-        <div class="msg-bubble">Connecté aux données d'Inocrea.<br><br>Temps par étape, <strong>taux de correction</strong> par commercial, délais WL, Desk — posez vos questions.</div>
-        <div class="msg-time">Maintenant</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Saisie -->
-  <div class="chat-input-wrap">
-    <textarea class="chat-input" id="chat-input" placeholder="Votre question…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-    <button class="chat-send" id="chat-send" onclick="sendMsg()">
-      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-    </button>
-  </div>
-</div>
-
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 14:07
+// DATA_START — généré le 2026-04-17 à 14:27
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:07",
+  "heure": "14:27",
   "pipeline": {
     "rdv_pris": 68,
     "negociation": 23,
@@ -1105,7 +1094,7 @@ const DATA = {
     "INO": 0
   },
   "ps_7j": {
-    "total": 29,
+    "total": 28,
     "WL": 0,
     "MP": 0,
     "INO": 0
@@ -1174,7 +1163,7 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 70,
+    "tickets_jour": 71,
     "activations_jour": 2,
     "activations_pct": 3,
     "reouverts_jour": 0,
@@ -1182,6 +1171,11 @@ const DATA = {
     "dubail_age_jours": null
   },
   "give_backs_en_attente": [
+    {
+      "client": "Renting/Petitjean/BE0718290839",
+      "age_jours": 0,
+      "raison": "Non défini"
+    },
     {
       "client": "RENTING / Moretti, Julien / BE1018247996",
       "age_jours": 0,
@@ -1229,7 +1223,7 @@ const DATA = {
     },
     {
       "client": "Deridder / Rue Albert Premier 51, 6560 ERQUELINNES/BE0207300876/",
-      "age_jours": 0,
+      "age_jours": 1,
       "raison": "Non défini"
     },
     {
@@ -1543,7 +1537,7 @@ const DATA = {
       "raison": "Non défini"
     },
     {
-      "client": "Renting / Atos / Cabinet dentaire coen et glibert SPRL//BE0870432765",
+      "client": "RENTING / Atos / Cabinet dentaire coen et glibert SPRL//BE0870432765",
       "age_jours": 9,
       "raison": "Non défini"
     },
@@ -1589,7 +1583,7 @@ const DATA = {
     },
     {
       "client": "Renting/Egetex",
-      "age_jours": 9,
+      "age_jours": 10,
       "raison": "Non défini"
     },
     {
@@ -1675,11 +1669,6 @@ const DATA = {
     {
       "client": "RENTING / DEFER / BE0412394510",
       "age_jours": 14,
-      "raison": "Non défini"
-    },
-    {
-      "client": "RENTING / Trombello, Giuseppe / BE0810253470",
-      "age_jours": 15,
       "raison": "Non défini"
     }
   ],
@@ -2097,7 +2086,11 @@ function switchTab(name,sBtn,tBtn){
   document.querySelectorAll('.tc').forEach(e=>e.classList.remove('on'));
   document.querySelectorAll('.tb').forEach(e=>e.classList.remove('on'));
   document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
-  const tc=document.getElementById('tab-'+name);if(tc)tc.classList.add('on');
+  const tc=document.getElementById('tab-'+name);
+  if(tc){
+    tc.classList.add('on');
+    if(name==='chat') tc.style.display='flex';
+  }
   if(sBtn)sBtn.classList.add('on');
   if(tBtn)tBtn.classList.add('on');
   else document.querySelectorAll('.tb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+name+"'"))b.classList.add('on')});

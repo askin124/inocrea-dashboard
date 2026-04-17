@@ -211,7 +211,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 13:48</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 13:54</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -1054,10 +1054,10 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 13:48
+// DATA_START — généré le 2026-04-17 à 13:54
 const DATA = {
   "date": "2026-04-17",
-  "heure": "13:48",
+  "heure": "13:54",
   "pipeline": {
     "rdv_pris": 68,
     "negociation": 23,
@@ -1137,11 +1137,11 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 0,
-    "activations_jour": 0,
-    "activations_pct": 0,
+    "tickets_jour": 70,
+    "activations_jour": 2,
+    "activations_pct": 3,
     "reouverts_jour": 0,
-    "tickets_anciens": 0,
+    "tickets_anciens": 23,
     "dubail_age_jours": null
   },
   "give_backs_en_attente": [
@@ -1652,14 +1652,20 @@ const DATA = {
       "module": "CRM",
       "titre": "Tarik Burazerovic — 32 corrections/30j",
       "action": "Session coaching individuelle cette semaine"
+    },
+    {
+      "niveau": "MAJEUR",
+      "module": "DESK",
+      "titre": "23 tickets ouverts > 30j",
+      "action": "Revue tickets anciens — assignation obligatoire"
     }
   ],
   "scores": {
     "pipeline": 45,
     "commercial": 85,
     "financier": 100,
-    "desk": 100,
-    "global": 79
+    "desk": 0,
+    "global": 57
   }
 };
 // DATA_END

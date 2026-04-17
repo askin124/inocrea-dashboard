@@ -19,8 +19,8 @@
   --sans:'Instrument Sans',sans-serif;--mono:'Instrument Mono',monospace;--r:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.hd{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;flex-shrink:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;margin:0;padding:0}
+.hd{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;position:fixed;top:0;left:0;right:0;z-index:100}
 .hd-brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:1.5px;display:flex;align-items:center;gap:12px}
 .hd-brand em{color:#5EE8A4;font-style:normal}
 .hd-sep{width:1px;height:16px;background:#2a2a28}
@@ -34,8 +34,8 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .btn-g:disabled{background:#2a2a28;color:#555;cursor:not-allowed}
 .btn-o{background:transparent;color:#888;border:1px solid #2a2a28}.btn-o:hover{border-color:#555;color:#ccc}
 .btn-sm{padding:5px 11px;font-size:11px}
-.body{display:flex;flex:1;min-height:0}
-.sb{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:14px 0;display:flex;flex-direction:column;overflow-y:auto}
+.body{display:flex;position:fixed;top:54px;left:0;right:0;bottom:0}
+.sb{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:14px 0;display:flex;flex-direction:column;overflow-y:auto;height:100%}
 .sb-sec{padding:0 10px;margin-bottom:16px}
 .sb-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;padding:0 4px}
 .ni{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--ink2);margin-bottom:1px;transition:background .1s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
@@ -53,11 +53,11 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .cfg-btns{display:flex;gap:5px;margin-top:8px}
 .cfg-btns .btn{flex:1;font-size:10px;padding:5px 6px}
 
-.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%;overflow:hidden}
 .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 18px;background:var(--white);overflow-x:auto}
 .tb{padding:7px 11px;border:none;background:none;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
 .tb:hover{color:var(--ink)}.tb.on{color:var(--ink);border-bottom-color:var(--ink)}
-.main-body{flex:1;overflow-y:auto;padding:18px 20px;min-height:0}
+.main-body{flex:1;overflow-y:auto;padding:18px 20px;min-height:0;height:0}
 .tc{display:none}.tc.on{display:block}
 
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
@@ -234,7 +234,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:57</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 15:00</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -275,20 +275,6 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 <!-- MAIN -->
 <div class="main">
-<div class="tabs">
-  <button class="tb on" onclick="switchTab('pipeline',null,this)">Pipeline</button>
-  <button class="tb" onclick="switchTab('process',null,this)">⏱ Process</button>
-  <button class="tb" onclick="switchTab('commerciaux',null,this)">Commerciaux</button>
-  <button class="tb" onclick="switchTab('corrections',null,this)">Corrections</button>
-  <button class="tb" onclick="switchTab('retention',null,this)">Rétention</button>
-  <button class="tb" onclick="switchTab('worldline',null,this)">WL · Activation</button>
-  <button class="tb" onclick="switchTab('eurofides',null,this)">Eurofides</button>
-  <button class="tb" onclick="switchTab('desk-deep',null,this)">📞 Desk</button>
-  <button class="tb" onclick="switchTab('frictions',null,this)">🚨 Frictions</button>
-  <button class="tb" onclick="switchTab('rapport',null,this)">Rapport IA</button>
-  <button class="tb" onclick="switchTab('live',null,this)">📡 Live</button>
-  <button class="tb" onclick="switchTab('chat',null,this)">✦ Copilote IA</button>
-</div>
 <div class="main-body">
 
 <!-- ═══ PIPELINE & ÉTAPES ═══ -->
@@ -1085,10 +1071,10 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 14:57
+// DATA_START — généré le 2026-04-17 à 15:00
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:57",
+  "heure": "15:00",
   "pipeline": {
     "rdv_pris": 67,
     "negociation": 23,
@@ -1381,7 +1367,7 @@ const DATA = {
     },
     {
       "client": "LOCATION / Diamz et co SPRL / BE0643688931",
-      "age_jours": 6,
+      "age_jours": 7,
       "raison": "Non défini"
     },
     {
@@ -1441,7 +1427,7 @@ const DATA = {
     },
     {
       "client": "RENTING / GUNEL, IBRAHIM PP",
-      "age_jours": 7,
+      "age_jours": 8,
       "raison": "Non défini"
     },
     {
@@ -1714,7 +1700,7 @@ const DATA = {
   "desk_classification": [
     {
       "classification": "Non classifié",
-      "count": 63,
+      "count": 62,
       "closed": 41,
       "med_h": 1.4,
       "moy_h": 4.1,
@@ -1732,7 +1718,7 @@ const DATA = {
     },
     {
       "classification": "Commerciaux",
-      "count": 8,
+      "count": 9,
       "closed": 5,
       "med_h": 1.1,
       "moy_h": 1.2,

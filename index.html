@@ -34,8 +34,8 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .btn-g:disabled{background:#2a2a28;color:#555;cursor:not-allowed}
 .btn-o{background:transparent;color:#888;border:1px solid #2a2a28}.btn-o:hover{border-color:#555;color:#ccc}
 .btn-sm{padding:5px 11px;font-size:11px}
-.body{display:flex;position:fixed;top:54px;left:0;right:0;bottom:0}
-.sb{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:14px 0;display:flex;flex-direction:column;overflow-y:auto;height:100%}
+.body{position:fixed;top:54px;left:0;right:0;bottom:0;display:flex}
+.sb{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:14px 0;display:flex;flex-direction:column;overflow-y:auto}
 .sb-sec{padding:0 10px;margin-bottom:16px}
 .sb-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;padding:0 4px}
 .ni{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--ink2);margin-bottom:1px;transition:background .1s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
@@ -53,11 +53,11 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .cfg-btns{display:flex;gap:5px;margin-top:8px}
 .cfg-btns .btn{flex:1;font-size:10px;padding:5px 6px}
 
-.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%;overflow:hidden}
+.main{flex:1;min-width:0;overflow-y:auto;padding:18px 20px}
 .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 18px;background:var(--white);overflow-x:auto}
 .tb{padding:7px 11px;border:none;background:none;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
 .tb:hover{color:var(--ink)}.tb.on{color:var(--ink);border-bottom-color:var(--ink)}
-.main-body{flex:1;overflow-y:auto;padding:18px 20px;min-height:0;height:0}
+.main-body{}
 .tc{display:none}.tc.on{display:block}
 
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
@@ -234,7 +234,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 15:00</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 15:05</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -1071,10 +1071,10 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 15:00
+// DATA_START — généré le 2026-04-17 à 15:05
 const DATA = {
   "date": "2026-04-17",
-  "heure": "15:00",
+  "heure": "15:05",
   "pipeline": {
     "rdv_pris": 67,
     "negociation": 23,
@@ -1167,7 +1167,7 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 73,
+    "tickets_jour": 74,
     "activations_jour": 3,
     "activations_pct": 4,
     "reouverts_jour": 0,
@@ -1417,7 +1417,7 @@ const DATA = {
     },
     {
       "client": "Atos / pprdv / Mr lebecq / BE0434253063",
-      "age_jours": 7,
+      "age_jours": 8,
       "raison": "Non défini"
     },
     {
@@ -1700,10 +1700,10 @@ const DATA = {
   "desk_classification": [
     {
       "classification": "Non classifié",
-      "count": 62,
-      "closed": 41,
+      "count": 61,
+      "closed": 40,
       "med_h": 1.4,
-      "moy_h": 4.1,
+      "moy_h": 3.8,
       "top_agent_id": "non_assigne",
       "top_agent_count": 36
     },
@@ -1726,6 +1726,15 @@ const DATA = {
       "top_agent_count": 4
     },
     {
+      "classification": "Demande Interne",
+      "count": 3,
+      "closed": 1,
+      "med_h": 16.8,
+      "moy_h": 16.8,
+      "top_agent_id": "non_assigne",
+      "top_agent_count": 2
+    },
+    {
       "classification": "Grenke",
       "count": 3,
       "closed": 2,
@@ -1742,15 +1751,6 @@ const DATA = {
       "moy_h": 1.5,
       "top_agent_id": "273799000114925029",
       "top_agent_count": 2
-    },
-    {
-      "classification": "Demande Interne",
-      "count": 2,
-      "closed": 1,
-      "med_h": 16.8,
-      "moy_h": 16.8,
-      "top_agent_id": "non_assigne",
-      "top_agent_count": 1
     },
     {
       "classification": "Suivi des corrections",

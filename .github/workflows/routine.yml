@@ -1,0 +1,36 @@
+name: Inocrea Daily Routine
+
+on:
+  schedule:
+    - cron: '0 6 * * 1-5'  # 7h00 heure belge (UTC+1)
+  workflow_dispatch:         # déclenchement manuel depuis GitHub si besoin
+
+jobs:
+  routine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install
+        run: npm install
+
+      - name: Run
+        env:
+          ZOHO_CLIENT_ID:     ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID:        ${{ secrets.ZOHO_ORG_ID }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME:    ${{ secrets.GH_USERNAME }}
+        run: node fetch.js
+
+      - name: Commit archive
+        run: |
+          git config user.name  "Inocrea Bot"
+          git config user.email "bot@inocrea.be"
+          git add archive/
+          git diff --staged --quiet || (git commit -m "archive: $(date +%Y-%m-%d)" && git push)

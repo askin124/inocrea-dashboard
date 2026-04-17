@@ -57,7 +57,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 18px;background:var(--white);overflow-x:auto}
 .tb{padding:7px 11px;border:none;background:none;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
 .tb:hover{color:var(--ink)}.tb.on{color:var(--ink);border-bottom-color:var(--ink)}
-.main-body{flex:1;overflow-y:auto;padding:18px 20px}
+.main-body{flex:1;overflow-y:auto;padding:18px 20px;min-height:0}
 .tc{display:none}.tc.on{display:block}
 
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
@@ -234,7 +234,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:27</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:51</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -252,7 +252,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     <button class="ni" onclick="switchTab('retention',this)"><span class="ni-ic">🔄</span>Rétention clients</button>
     <button class="ni" onclick="switchTab('worldline',this)"><span class="ni-ic">⚡</span>WL · Activation · GB</button>
     <button class="ni" onclick="switchTab('eurofides',this)"><span class="ni-ic">⚖</span>Eurofides</button>
-    <button class="ni" onclick="switchTab('desk-deep',this)"><span class="ni-ic">📞</span>Desk · Appels</button>
+    <button class="ni" onclick="switchTab('desk-deep',this)"><span class="ni-ic">📞</span>Desk</button>
     <button class="ni" onclick="switchTab('frictions',this)"><span class="ni-ic">🚨</span>Frictions process</button>
     <button class="ni" onclick="switchTab('rapport',this)"><span class="ni-ic">✦</span>Rapport IA</button>
     <button class="ni" onclick="switchTab('live',this)"><span class="ni-ic">📡</span>Live quotidien<span class="nb nb-r" id="badge-alertes">1</span></button>
@@ -283,7 +283,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <button class="tb" onclick="switchTab('retention',null,this)">Rétention</button>
   <button class="tb" onclick="switchTab('worldline',null,this)">WL · Activation</button>
   <button class="tb" onclick="switchTab('eurofides',null,this)">Eurofides</button>
-  <button class="tb" onclick="switchTab('desk-deep',null,this)">📞 Appels</button>
+  <button class="tb" onclick="switchTab('desk-deep',null,this)">📞 Desk</button>
   <button class="tb" onclick="switchTab('frictions',null,this)">🚨 Frictions</button>
   <button class="tb" onclick="switchTab('rapport',null,this)">Rapport IA</button>
   <button class="tb" onclick="switchTab('live',null,this)">📡 Live</button>
@@ -992,6 +992,24 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       </div>
     </div>
   </div>
+
+  <!-- CLASSIFICATION DYNAMIQUE -->
+  <div class="card" id="desk-cls-card" style="margin-top:12px">
+    <div class="ch"><h2>🗂 Analyse par classification — live</h2><span class="src">Desk · 200 derniers tickets</span></div>
+    <div class="cb" style="padding:0">
+      <table class="tbl" id="desk-cls-table">
+        <thead><tr>
+          <th>Classification</th>
+          <th class="rt">Tickets</th>
+          <th class="rt">Résolus</th>
+          <th class="rt">Méd. résol.</th>
+          <th class="rt">Moy. résol.</th>
+          <th>Agent principal</th>
+        </tr></thead>
+        <tbody id="desk-cls-body"><tr><td colspan="6" style="text-align:center;color:var(--ink3);padding:16px">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ FRICTIONS PROCESS ═══ -->
@@ -1067,19 +1085,19 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 14:27
+// DATA_START — généré le 2026-04-17 à 14:51
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:27",
+  "heure": "14:51",
   "pipeline": {
-    "rdv_pris": 68,
+    "rdv_pris": 67,
     "negociation": 23,
     "attente_wl": 17,
     "en_correction": 2,
     "val_financement": 4,
     "traitement_ubo": 7,
     "renting_incomplet": 2,
-    "closing_imminent": 4,
+    "closing_imminent": 6,
     "valeur_totale": 92082
   },
   "pipeline_par_type": {
@@ -1163,9 +1181,9 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 71,
-    "activations_jour": 2,
-    "activations_pct": 3,
+    "tickets_jour": 72,
+    "activations_jour": 3,
+    "activations_pct": 4,
     "reouverts_jour": 0,
     "tickets_anciens": 23,
     "dubail_age_jours": null
@@ -1332,7 +1350,7 @@ const DATA = {
       "raison": "Non défini"
     },
     {
-      "client": "Renting/gevogelte//BE0685889770",
+      "client": "RENTING / GEVOGELTE VANSTEENKISTE SPRL / BE0685889770",
       "age_jours": 4,
       "raison": "Non défini"
     },
@@ -1443,12 +1461,12 @@ const DATA = {
     },
     {
       "client": "RENTING / Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
       "client": "Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1463,7 +1481,7 @@ const DATA = {
     },
     {
       "client": "Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1488,7 +1506,7 @@ const DATA = {
     },
     {
       "client": "Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1537,7 +1555,7 @@ const DATA = {
       "raison": "Non défini"
     },
     {
-      "client": "RENTING / Atos / Cabinet dentaire coen et glibert SPRL//BE0870432765",
+      "client": "RENTING / Cabinet dentaire coen et glibert SPRL / BE0870432765",
       "age_jours": 9,
       "raison": "Non défini"
     },
@@ -1558,7 +1576,7 @@ const DATA = {
     },
     {
       "client": "RENTING /MALTING POT SRL",
-      "age_jours": 9,
+      "age_jours": 10,
       "raison": "Non défini"
     },
     {
@@ -1648,7 +1666,7 @@ const DATA = {
     },
     {
       "client": "RENTING / Nanni Gregory PP",
-      "age_jours": 13,
+      "age_jours": 14,
       "raison": "Non défini"
     },
     {
@@ -1668,7 +1686,7 @@ const DATA = {
     },
     {
       "client": "RENTING / DEFER / BE0412394510",
-      "age_jours": 14,
+      "age_jours": 15,
       "raison": "Non défini"
     }
   ],
@@ -1692,7 +1710,8 @@ const DATA = {
     "financier": 100,
     "desk": 0,
     "global": 57
-  }
+  },
+  "desk_classification": []
 };
 // DATA_END
 
@@ -2209,6 +2228,33 @@ function toggleQuestions(){
   qq.style.display=hidden?'block':'none';
   tog.textContent=hidden?'Q ▴':'Q ▾';
 }
+
+// ── DESK CLASSIFICATION ───────────────────
+(function initDeskCls(){
+  if (!DATA?.desk_classification?.length) return;
+  const agentNames = {
+    '273799000114925029':'Agent A','273799000143766162':'Agent A2',
+    '273799000114766162':'Agent D','273799000147736261':'Agent D2',
+    '273799000114736261':'Agent F','273799000114757005':'Agent E',
+    '273799000114183005':'Agent B','273799000120275001':'Agent G',
+    'non_assigne':'Non assigné'
+  };
+  const sc = v => v === null ? '—' : v < 2 ? 'color:var(--teal-m)' : v < 8 ? 'color:var(--amber-m)' : 'color:var(--red-m)';
+  const tbody = document.getElementById('desk-cls-body');
+  if (!tbody) return;
+  tbody.innerHTML = DATA.desk_classification.map(r => {
+    const agent = agentNames[r.top_agent_id] || (r.top_agent_id ? r.top_agent_id.slice(-6) : '—');
+    const closed_pct = r.count ? Math.round(r.closed / r.count * 100) : 0;
+    return `<tr>
+      <td style="font-weight:500">${r.classification}</td>
+      <td class="mn rt">${r.count}</td>
+      <td class="mn rt">${r.closed} <span style="color:var(--ink3);font-size:10px">(${closed_pct}%)</span></td>
+      <td class="mn rt" style="${sc(r.med_h)}">${r.med_h !== null ? r.med_h+'h' : '—'}</td>
+      <td class="mn rt" style="${sc(r.moy_h)}">${r.moy_h !== null ? r.moy_h+'h' : '—'}</td>
+      <td><span class="pill p-b">${agent}</span> <span style="font-size:10px;color:var(--ink3)">${r.top_agent_count} tickets</span></td>
+    </tr>`;
+  }).join('');
+})();
 
 // ── LIVE QUOTIDIEN ────────────────────────
 (function initLive(){

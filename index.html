@@ -234,7 +234,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
   <div class="hd-r">
     <div class="pulse"></div>
-    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:51</div>
+    <div class="hd-date" id="hd-date">ven. 17 avr. 2026 · 14:57</div>
     <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
     <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
   </div>
@@ -1085,19 +1085,19 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </div><!-- /body -->
 
 <script>
-// DATA_START — généré le 2026-04-17 à 14:51
+// DATA_START — généré le 2026-04-17 à 14:57
 const DATA = {
   "date": "2026-04-17",
-  "heure": "14:51",
+  "heure": "14:57",
   "pipeline": {
     "rdv_pris": 67,
     "negociation": 23,
     "attente_wl": 17,
     "en_correction": 2,
-    "val_financement": 4,
+    "val_financement": 3,
     "traitement_ubo": 7,
     "renting_incomplet": 2,
-    "closing_imminent": 6,
+    "closing_imminent": 7,
     "valeur_totale": 92082
   },
   "pipeline_par_type": {
@@ -1181,7 +1181,7 @@ const DATA = {
     "overdue_par_type": {}
   },
   "desk": {
-    "tickets_jour": 72,
+    "tickets_jour": 73,
     "activations_jour": 3,
     "activations_pct": 4,
     "reouverts_jour": 0,
@@ -1496,7 +1496,7 @@ const DATA = {
     },
     {
       "client": "MP/RENTING / Lemcirdi, Hamza / BE1006419738",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1516,7 +1516,7 @@ const DATA = {
     },
     {
       "client": "RENTING / Doudelet D.SRL - Onboarding",
-      "age_jours": 8,
+      "age_jours": 9,
       "raison": "Non défini"
     },
     {
@@ -1711,7 +1711,71 @@ const DATA = {
     "desk": 0,
     "global": 57
   },
-  "desk_classification": []
+  "desk_classification": [
+    {
+      "classification": "Non classifié",
+      "count": 63,
+      "closed": 41,
+      "med_h": 1.4,
+      "moy_h": 4.1,
+      "top_agent_id": "non_assigne",
+      "top_agent_count": 36
+    },
+    {
+      "classification": "Partners Worldline",
+      "count": 20,
+      "closed": 16,
+      "med_h": 19.6,
+      "moy_h": 90.2,
+      "top_agent_id": "273799000143766162",
+      "top_agent_count": 12
+    },
+    {
+      "classification": "Commerciaux",
+      "count": 8,
+      "closed": 5,
+      "med_h": 1.1,
+      "moy_h": 1.2,
+      "top_agent_id": "non_assigne",
+      "top_agent_count": 4
+    },
+    {
+      "classification": "Grenke",
+      "count": 3,
+      "closed": 2,
+      "med_h": 0.2,
+      "moy_h": 0.2,
+      "top_agent_id": "non_assigne",
+      "top_agent_count": 2
+    },
+    {
+      "classification": "Feedback WL",
+      "count": 3,
+      "closed": 3,
+      "med_h": 1.2,
+      "moy_h": 1.5,
+      "top_agent_id": "273799000114925029",
+      "top_agent_count": 2
+    },
+    {
+      "classification": "Demande Interne",
+      "count": 2,
+      "closed": 1,
+      "med_h": 16.8,
+      "moy_h": 16.8,
+      "top_agent_id": "non_assigne",
+      "top_agent_count": 1
+    },
+    {
+      "classification": "Suivi des corrections",
+      "count": 1,
+      "closed": 0,
+      "med_h": null,
+      "moy_h": null,
+      "top_agent_id": "273799000147736261",
+      "top_agent_count": 1
+    }
+  ]
 };
 // DATA_END
 

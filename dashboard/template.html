@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inocrea — Analyse Approfondie</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Mono:wght@400;500&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0F0F0D;--ink2:#38382E;--ink3:#7A7A6E;
+  --paper:#F5F4EE;--white:#FFF;--border:#E0DED4;--border2:#C8C7BC;
+  --teal:#096048;--teal-bg:#E4F2EC;--teal-m:#189665;
+  --blue:#133FA0;--blue-bg:#E5EDFB;--blue-m:#2B5DD0;
+  --amber:#824000;--amber-bg:#FDF0E0;--amber-m:#C2650C;
+  --red:#821818;--red-bg:#FEF0F0;--red-m:#D03030;
+  --purple:#3E2588;--purple-bg:#EDEAFB;--purple-m:#6540C8;
+  --green:#1E5C0E;--green-bg:#EAF3E4;--green-m:#39A020;
+  --wl:#133FA0;--wl-bg:#E5EDFB;--mp:#7B2D8B;--mp-bg:#F5E8FB;--ino:#B05000;--ino-bg:#FDF0E0;
+  --sans:'Instrument Sans',sans-serif;--mono:'Instrument Mono',monospace;--r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.hd{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;flex-shrink:0}
+.hd-brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:1.5px;display:flex;align-items:center;gap:12px}
+.hd-brand em{color:#5EE8A4;font-style:normal}
+.hd-sep{width:1px;height:16px;background:#2a2a28}
+.hd-sub{font-size:12px;color:#666}
+.hd-r{display:flex;align-items:center;gap:10px}
+.hd-date{font-family:var(--mono);font-size:11px;color:#555}
+.pulse{width:6px;height:6px;border-radius:50%;background:#5EE8A4;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:var(--sans);transition:all .15s}
+.btn-g{background:#5EE8A4;color:#0F0F0D}.btn-g:hover{background:#3ED494}
+.btn-g:disabled{background:#2a2a28;color:#555;cursor:not-allowed}
+.btn-o{background:transparent;color:#888;border:1px solid #2a2a28}.btn-o:hover{border-color:#555;color:#ccc}
+.btn-sm{padding:5px 11px;font-size:11px}
+.body{display:flex;flex:1;min-height:0}
+.sb{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:14px 0;display:flex;flex-direction:column;overflow-y:auto}
+.sb-sec{padding:0 10px;margin-bottom:16px}
+.sb-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;padding:0 4px}
+.ni{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--ink2);margin-bottom:1px;transition:background .1s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
+.ni:hover{background:var(--paper)}.ni.on{background:var(--ink);color:#fff}
+.ni-ic{font-size:11px;width:14px;text-align:center;flex-shrink:0}
+.nb{margin-left:auto;font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:5px}
+.nb-r{background:var(--red-bg);color:var(--red)}.nb-a{background:var(--amber-bg);color:var(--amber)}
+
+.cfg{background:var(--paper);border-radius:7px;padding:10px;margin:0 8px}
+.cfg label{font-size:9px;color:var(--ink3);display:block;margin-bottom:2px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:7px}
+.cfg label:first-child{margin-top:0}
+.cfg input,.cfg textarea{width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:5px;font-size:11px;font-family:var(--mono);color:var(--ink);background:var(--white);resize:vertical}
+.cfg textarea{font-family:var(--sans);font-size:11px;line-height:1.4;min-height:55px}
+.cfg input:focus,.cfg textarea:focus{outline:none;border-color:var(--teal-m)}
+.cfg-btns{display:flex;gap:5px;margin-top:8px}
+.cfg-btns .btn{flex:1;font-size:10px;padding:5px 6px}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 18px;background:var(--white);overflow-x:auto}
+.tb{padding:7px 11px;border:none;background:none;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;white-space:nowrap}
+.tb:hover{color:var(--ink)}.tb.on{color:var(--ink);border-bottom-color:var(--ink)}
+.main-body{flex:1;overflow-y:auto;padding:18px 20px}
+.tc{display:none}.tc.on{display:block}
+
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.ch{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ch h2{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:7px}
+.src{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink3);flex-shrink:0}
+.cb{padding:14px 16px}
+
+.kpis{display:grid;gap:10px;margin-bottom:14px}
+.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}.k2{grid-template-columns:repeat(2,1fr)}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.tl::after{background:var(--teal-m)}.kpi.bl::after{background:var(--blue-m)}
+.kpi.am::after{background:var(--amber-m)}.kpi.re::after{background:var(--red-m)}
+.kpi.pu::after{background:var(--purple-m)}.kpi.gy::after{background:var(--border2)}
+.k-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px}
+.k-val{font-size:21px;font-weight:600;letter-spacing:-1px;line-height:1;margin-bottom:3px}
+.k-sub{font-size:11px;color:var(--ink3)}.k-d{font-size:10px;font-family:var(--mono);margin-top:3px}
+.up{color:var(--green-m)}.dn{color:var(--red-m)}.fl{color:var(--ink3)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{text-align:left;padding:5px 10px;font-size:9px;font-weight:600;color:var(--ink3);border-bottom:1px solid var(--border);font-family:var(--mono);letter-spacing:.5px;text-transform:uppercase}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--paper)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover{background:var(--paper)}
+.mn{font-family:var(--mono)}.rt{text-align:right}.ct{text-align:center}
+
+.pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:9px;font-weight:600;font-family:var(--mono)}
+.p-t{background:var(--teal-bg);color:var(--teal)}.p-b{background:var(--blue-bg);color:var(--blue)}
+.p-a{background:var(--amber-bg);color:var(--amber)}.p-r{background:var(--red-bg);color:var(--red)}
+.p-p{background:var(--purple-bg);color:var(--purple)}.p-n{background:var(--paper);color:var(--ink3);border:1px solid var(--border)}
+.p-g{background:var(--green-bg);color:var(--green)}
+
+.pr{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.pt{flex:1;background:var(--paper);border-radius:3px;height:20px;overflow:hidden}
+.pf{height:100%;border-radius:3px;display:flex;align-items:center;padding:0 8px;font-family:var(--mono);font-size:10px;color:#fff;font-weight:500}
+.pn{font-size:11px;color:var(--ink2);width:150px;flex-shrink:0}
+.pm{width:70px;text-align:right;font-family:var(--mono);font-size:10px;color:var(--ink3);flex-shrink:0}
+
+.al{display:flex;flex-direction:column}
+.ar{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--paper)}
+.ar:last-child{border-bottom:none}
+.adot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.d-r{background:var(--red-m)}.d-a{background:var(--amber-m)}.d-t{background:var(--teal-m)}.d-b{background:var(--blue-m)}
+.ab{flex:1}.at{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px}
+.ad2{font-size:11px;color:var(--ink3);line-height:1.4}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* HEATMAP */
+.heatmap{display:flex;flex-direction:column;gap:3px}
+.hm-row{display:flex;align-items:center;gap:6px}
+.hm-lbl{width:160px;font-size:11px;color:var(--ink2);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-bar{flex:1;height:22px;border-radius:3px;display:flex;align-items:center;padding:0 8px;font-family:var(--mono);font-size:10px;color:#fff;font-weight:500;position:relative}
+.hm-val{width:80px;text-align:right;font-family:var(--mono);font-size:10px;flex-shrink:0}
+.hm-tag{margin-left:6px;flex-shrink:0}
+
+/* PHASE TIMELINE */
+.phase-timeline{display:flex;flex-direction:column;gap:8px;padding:4px 0}
+.phase-row{display:flex;align-items:flex-start;gap:12px}
+.phase-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+.phase-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.phase-line{width:2px;flex:1;background:var(--border);min-height:20px}
+.phase-row:last-child .phase-line{display:none}
+.phase-content{flex:1;padding-bottom:12px}
+.phase-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.phase-name{font-size:12px;font-weight:600;color:var(--ink)}
+.phase-time{font-family:var(--mono);font-size:11px}
+.phase-detail{font-size:11px;color:var(--ink3);line-height:1.5}
+
+/* ANOMALY BOX */
+.anomaly-box{background:var(--red-bg);border:1px solid #F8BBBB;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.anomaly-title{font-size:12px;font-weight:600;color:var(--red);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.anomaly-body{font-size:11px;color:var(--red-m);line-height:1.5}
+
+.warn-box{background:var(--amber-bg);border:1px solid #F5C580;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.warn-title{font-size:12px;font-weight:600;color:var(--amber);margin-bottom:4px}
+.warn-body{font-size:11px;color:var(--amber-m);line-height:1.5}
+
+.ok-box{background:var(--teal-bg);border:1px solid #9FDFC4;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.ok-title{font-size:12px;font-weight:600;color:var(--teal);margin-bottom:4px}
+.ok-body{font-size:11px;color:var(--teal-m);line-height:1.5}
+
+/* COMMERCIAL CARD */
+.comm-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.comm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.comm-name{font-size:13px;font-weight:600;color:var(--ink)}
+.comm-score{font-family:var(--mono);font-size:18px;font-weight:600}
+.comm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
+.comm-stat{text-align:center}
+.comm-stat .cv{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink)}
+.comm-stat .cl{font-size:9px;color:var(--ink3);text-transform:uppercase;font-family:var(--mono);letter-spacing:.3px}
+.comm-issues{display:flex;flex-wrap:wrap;gap:4px}
+.issue-tag{padding:2px 8px;border-radius:4px;font-size:9px;font-family:var(--mono);font-weight:600}
+.it-r{background:var(--red-bg);color:var(--red)}.it-a{background:var(--amber-bg);color:var(--amber)}
+.it-b{background:var(--blue-bg);color:var(--blue)}.it-g{background:var(--green-bg);color:var(--green)}
+
+/* CHAT */
+.chat-panel{width:280px;flex-shrink:0;background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;min-height:0}
+.chat-header{padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;background:var(--white)}
+.chat-header-l{display:flex;align-items:center;gap:7px}
+.chat-avatar{width:24px;height:24px;background:linear-gradient(135deg,#5EE8A4,#60A5FA);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.chat-title{font-size:12px;font-weight:600;color:var(--ink)}
+.chat-sub{font-size:10px;color:var(--ink3)}
+.chat-status{font-size:10px;color:var(--teal);display:flex;align-items:center;gap:4px}
+.chat-status::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal-m)}
+.chat-messages{flex:1;overflow-y:auto;padding:10px 10px 0;display:flex;flex-direction:column;gap:8px;min-height:0}
+.msg{display:flex;gap:6px;align-items:flex-start}.msg.user{flex-direction:row-reverse}
+.msg-av{width:20px;height:20px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px}
+.msg-av.ai{background:linear-gradient(135deg,#5EE8A4,#60A5FA)}.msg-av.usr{background:var(--ink);color:#fff;font-family:var(--mono);font-size:8px;font-weight:600}
+.msg-bubble{max-width:210px;padding:8px 10px;border-radius:10px;font-size:11px;line-height:1.6}
+.msg.ai .msg-bubble{background:var(--paper);color:var(--ink2);border-radius:2px 10px 10px 10px}
+.msg.user .msg-bubble{background:var(--ink);color:#ccc;border-radius:10px 2px 10px 10px}
+.msg-bubble strong{color:var(--ink)}.msg.user .msg-bubble strong{color:#fff}
+.msg-time{font-size:9px;color:var(--ink3);margin-top:2px;font-family:var(--mono)}
+.msg.user .msg-time{text-align:right}
+.typing{display:flex;align-items:center;gap:3px;padding:8px 10px;background:var(--paper);border-radius:2px 10px 10px 10px;width:fit-content}
+.typing span{width:4px;height:4px;border-radius:50%;background:var(--ink3);animation:bounce .8s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:scale(1)}40%{transform:scale(1.4)}}
+.chat-quick{padding:7px 10px;border-top:1px solid var(--border);flex-shrink:0;max-height:120px;overflow-y:auto}
+.qq-lbl{font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:4px}
+.qq-chips{display:flex;flex-wrap:wrap;gap:3px}
+.qq-chip{padding:3px 7px;border:1px solid var(--border);border-radius:20px;font-size:10px;background:var(--white);cursor:pointer;color:var(--ink2);font-family:var(--sans);transition:all .12s;line-height:1.3}
+.qq-chip:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chat-input-wrap{padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:5px;align-items:flex-end}
+.chat-input{flex:1;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans);font-size:11px;color:var(--ink);background:var(--paper);resize:none;min-height:32px;max-height:80px;transition:border-color .15s;line-height:1.4}
+.chat-input:focus{outline:none;border-color:var(--teal-m);background:var(--white)}
+.chat-send{width:28px;height:28px;background:var(--ink);border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-send:hover{background:#333}.chat-send:disabled{background:var(--border);cursor:not-allowed}
+.chat-send svg{width:12px;height:12px;fill:#fff}
+
+.ov{display:none;position:fixed;inset:0;background:rgba(15,15,13,.75);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.ov.on{display:flex}
+.lc{background:var(--white);border-radius:var(--r);padding:22px 28px;text-align:center;max-width:290px;width:90%}
+.spin{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--teal-m);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lc h3{font-size:12px;font-weight:600;margin-bottom:3px}
+.lc p{font-size:10px;color:var(--ink3)}
+
+@media(max-width:860px){.sb{display:none}}
+@media(max-width:700px){.chat-panel{display:none}.kpis.k4{grid-template-columns:1fr 1fr}.g2,.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="ov" id="ov"><div class="lc"><div class="spin"></div><h3>Analyse en cours…</h3><p>Traitement données Inocrea</p></div></div>
+
+<div class="hd">
+  <div class="hd-brand">INO<em>CREA</em><div class="hd-sep"></div><span class="hd-sub">Analyse Approfondie · Module Opportunités</span></div>
+  <div class="hd-r">
+    <div class="pulse"></div>
+    <div class="hd-date" id="hd-date"></div>
+    <button class="btn btn-o btn-sm" onclick="switchTab('config',null,null)">⚙</button>
+    <button class="btn btn-g btn-sm" id="btn-run" onclick="go()">▶ Analyser</button>
+  </div>
+</div>
+
+<div class="body">
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="sb-sec">
+    <div class="sb-lbl">Analyses</div>
+    <button class="ni on" onclick="switchTab('pipeline',this)"><span class="ni-ic">◈</span>Pipeline & Étapes</button>
+    <button class="ni" onclick="switchTab('process',this)"><span class="ni-ic">⏱</span>Temps de traitement</button>
+    <button class="ni" onclick="switchTab('commerciaux',this)"><span class="ni-ic">👤</span>Commerciaux<span class="nb nb-a">14</span></button>
+    <button class="ni" onclick="switchTab('corrections',this)"><span class="ni-ic">⚠</span>Corrections<span class="nb nb-r">1147</span></button>
+    <button class="ni" onclick="switchTab('retention',this)"><span class="ni-ic">🔄</span>Rétention clients</button>
+    <button class="ni" onclick="switchTab('worldline',this)"><span class="ni-ic">⚡</span>WL · Activation · GB</button>
+    <button class="ni" onclick="switchTab('eurofides',this)"><span class="ni-ic">⚖</span>Eurofides</button>
+    <button class="ni" onclick="switchTab('desk-deep',this)"><span class="ni-ic">📞</span>Desk · Appels</button>
+    <button class="ni" onclick="switchTab('frictions',this)"><span class="ni-ic">🚨</span>Frictions process</button>
+    <button class="ni" onclick="switchTab('rapport',this)"><span class="ni-ic">✦</span>Rapport IA</button>
+    <button class="ni" onclick="switchTab('live',this)"><span class="ni-ic">📡</span>Live quotidien<span class="nb nb-r" id="badge-alertes">0</span></button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Config</div>
+    <div class="cfg">
+      <label>Clé API Anthropic</label>
+      <input type="password" id="api-key" placeholder="sk-ant-…"/>
+      <label>Instructions spécifiques</label>
+      <textarea id="instr" placeholder="Focus sur…" rows="2"></textarea>
+      <div class="cfg-btns">
+        <button class="btn btn-g" onclick="go()">▶ Analyser</button>
+        <button class="btn btn-o" onclick="raz()">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<div class="tabs">
+  <button class="tb on" onclick="switchTab('pipeline',null,this)">Pipeline</button>
+  <button class="tb" onclick="switchTab('process',null,this)">⏱ Process</button>
+  <button class="tb" onclick="switchTab('commerciaux',null,this)">Commerciaux</button>
+  <button class="tb" onclick="switchTab('corrections',null,this)">Corrections</button>
+  <button class="tb" onclick="switchTab('retention',null,this)">Rétention</button>
+  <button class="tb" onclick="switchTab('worldline',null,this)">WL · Activation</button>
+  <button class="tb" onclick="switchTab('eurofides',null,this)">Eurofides</button>
+  <button class="tb" onclick="switchTab('desk-deep',null,this)">📞 Appels</button>
+  <button class="tb" onclick="switchTab('frictions',null,this)">🚨 Frictions</button>
+  <button class="tb" onclick="switchTab('rapport',null,this)">Rapport IA</button>
+  <button class="tb" onclick="switchTab('live',null,this)">📡 Live</button>
+</div>
+<div class="main-body">
+
+<!-- ═══ PIPELINE & ÉTAPES ═══ -->
+<div class="tc on" id="tab-pipeline">
+
+  <div class="warn-box" style="margin-bottom:14px">
+    <div class="warn-title">⚠ Action requise — Purger les dossiers zombie du CRM</div>
+    <div class="warn-body">Des milliers de dossiers créés entre 2016 et 2020 polluentencore le CRM (CC check moy. 2 351j, Contrat à récupérer 2 058j, Needs Analysis 1 786j, Proposition ancienne 1 663j). <strong>Ils ne sont plus affichés ici</strong> mais faussent toutes vos métriques Zoho. À archiver en masse via un export filtré sur "dernière activité > 18 mois".</div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>📊 Pipeline actif réel — étapes commerciales (depuis 2024)</h2><span class="src">CRM · 6 912 opps 2024-2026</span></div>
+    <div class="cb">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:10px;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;margin-bottom:8px">ÉTAPES COMMERCIALES ACTIVES</div>
+          <div class="phase-timeline">
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--blue-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Rendez-vous pris</span><span class="phase-time" style="color:var(--teal-m)">moy. 46j · med. 21j</span></div>
+                <div class="phase-detail">119 dossiers actifs · délai normal</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Négociation</span><span class="phase-time" style="color:var(--teal-m)">moy. 48j · med. 40j</span></div>
+                <div class="phase-detail">69 dossiers · WL 63 · MP 5 · INO 1</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Prise de rendez-vous en cours</span><span class="phase-time" style="color:var(--teal-m)">moy. 27j</span></div>
+                <div class="phase-detail">5 dossiers · RDV à confirmer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;margin-bottom:8px">ÉTAPES PROCESS / ADMIN</div>
+          <div class="phase-timeline">
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Attente activation WL & MP</span><span class="phase-time" style="color:var(--teal-m)">moy. 26j · med. 18j</span></div>
+                <div class="phase-detail">24 dossiers · délai WL acceptable</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--amber-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">En validation de financement</span><span class="phase-time" style="color:var(--amber-m)">moy. 48j · med. 73j</span></div>
+                <div class="phase-detail">8 dossiers · GRENKE / BNP en attente</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--amber-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Traitement UBO</span><span class="phase-time" style="color:var(--amber-m)">moy. 80j · med. 60j</span></div>
+                <div class="phase-detail">8 dossiers · vérification bénéficiaires lente</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--amber-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Renting incomplet</span><span class="phase-time" style="color:var(--amber-m)">moy. 93j · med. 66j</span></div>
+                <div class="phase-detail">10 dossiers · dossier admin bloqué</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--amber-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">En correction</span><span class="phase-time" style="color:var(--amber-m)">moy. 46j</span></div>
+                <div class="phase-detail">8 dossiers · correction WL en cours</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Attribuer TID</span><span class="phase-time" style="color:var(--teal-m)">moy. 13j · med. 12j</span></div>
+                <div class="phase-detail">6 dossiers · attribution rapide ✓</div>
+              </div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <div class="phase-head"><span class="phase-name">Livraison / Installation</span><span class="phase-time" style="color:var(--teal-m)">5 dossiers</span></div>
+                <div class="phase-detail">En cours d'installation terrain</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>📋 Cycle de vente par type</h2><span class="src">CRM · champ Durée cycle</span></div>
+      <div class="cb" style="padding:0">
+        <table class="tbl">
+          <thead><tr><th>Type</th><th class="rt">N</th><th class="rt">Médiane</th><th class="rt">Moy.</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill" style="background:var(--wl-bg);color:var(--wl);border:1px solid #B5D0F8">Worldline</span></td><td class="mn rt">6 822</td><td class="mn rt" style="color:var(--teal-m)">19j</td><td class="mn rt" style="color:var(--amber-m)">108j*</td><td style="font-size:11px">* tiré par dossiers anciens</td></tr>
+            <tr><td><span class="pill" style="background:var(--mp-bg);color:var(--mp)">Marketpay</span></td><td class="mn rt">56</td><td class="mn rt" style="color:var(--teal-m)">15j</td><td class="mn rt" style="color:var(--teal-m)">21j</td><td style="font-size:11px">✓ Cycle cohérent</td></tr>
+            <tr><td><span class="pill" style="background:var(--ino-bg);color:var(--ino)">Inoresto</span></td><td class="mn rt">40</td><td class="mn rt" style="color:var(--teal-m)">8j</td><td class="mn rt" style="color:var(--teal-m)">10j</td><td style="font-size:11px">✓ Le plus rapide</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>⚠ Doublon à corriger en CRM</h2><span class="src">CRM · paramètres étapes</span></div>
+      <div class="cb">
+        <div class="warn-box" style="margin:0">
+          <div class="warn-title">"Rendez-vous pris" vs "Rendez vous pris" — 36 dossiers mal classés</div>
+          <div class="warn-body">Deux étapes identiques (orthographe différente). Les 36 dossiers "Rendez vous pris" n'apparaissent pas dans les bons rapports. Action : fusionner via paramètres CRM → Étapes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ TEMPS DE TRAITEMENT ═══ -->
+<div class="tc" id="tab-process">
+  <div class="kpis k4">
+    <div class="kpi tl"><div class="k-lbl">Création → Email WL</div><div class="k-val">23j</div><div class="k-sub">médiane 13j · n=2 319</div></div>
+    <div class="kpi tl"><div class="k-lbl">Email WL → Installation</div><div class="k-val">14j</div><div class="k-sub">médiane 8j · n=2 411</div></div>
+    <div class="kpi am"><div class="k-lbl">Réception contrat → Install</div><div class="k-val">22j</div><div class="k-sub">médiane 13j · n=3 883</div></div>
+    <div class="kpi re"><div class="k-lbl">Give Back traitement</div><div class="k-val">93j</div><div class="k-sub">médiane 36j · max 637j</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>⏱ Chronologie complète d'un dossier Inocrea</h2><span class="src">CRM · toutes dates</span></div>
+    <div class="cb">
+      <div class="phase-timeline">
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--blue-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">① Création de l'opportunité</span><span class="phase-time">Jour 0</span></div>
+            <div class="phase-detail">CC ou PAP — prospect identifié, dossier ouvert dans CRM</div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--amber-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">② Qualification → RDV</span><span class="phase-time" style="color:var(--amber-m)">≈ Jour 0–46 (moy. CC check)</span></div>
+            <div class="phase-detail">Étape CC check → RDV pris · <strong>Problème : 6,4 ans d'âge moyen en CC check</strong> → dossiers morts</div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">③ Proposition → Signature</span><span class="phase-time" style="color:var(--teal-m)">Jour 11 (médiane) depuis création</span></div>
+            <div class="phase-detail">Cycle de vente WL médiane 19j · MP 15j · Inoresto 8j</div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">④ Réception contrat signé</span><span class="phase-time" style="color:var(--teal-m)">Délai variable (commercial → admin)</span></div>
+            <div class="phase-detail">4 832 contrats avec date réception enregistrée</div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">⑤ Email envoyé à Worldline</span><span class="phase-time" style="color:var(--teal-m)">+23j moy. depuis création (+13j médiane)</span></div>
+            <div class="phase-detail">2 319 dossiers tracés · délai <7j : 778 cas (33%) · >30j : 455 cas (20%)</div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--teal-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">⑥ WL traite → Installation</span><span class="phase-time" style="color:var(--teal-m)">+14j moy. / +8j médiane</span></div>
+            <div class="phase-detail">Délai Worldline stable · jan 2026 : 7j · avr 2026 : 6j · <strong>WL répond bien</strong></div>
+          </div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-dot-wrap"><div class="phase-dot" style="background:var(--red-m)"></div><div class="phase-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-head"><span class="phase-name">⑦ Give Back (si problème)</span><span class="phase-time" style="color:var(--red-m)">+93j moy. de traitement</span></div>
+            <div class="phase-detail">290 opps Give Back · raisons : Autre 230, Manque infos 39, ID invalide 14 · max 637j</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>📨 Délai envoi email WL — distribution</h2><span class="src">CRM · n=2 319</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">< 7 jours</div><div class="pt"><div class="pf" style="width:100%;background:var(--teal-m)">778 cas</div></div><div class="pm" style="color:var(--teal)">33,6%</div></div>
+        <div class="pr"><div class="pn">7 à 14 jours</div><div class="pt"><div class="pf" style="width:52%;background:#2A80C0">403 cas</div></div><div class="pm">17,4%</div></div>
+        <div class="pr"><div class="pn">14 à 30 jours</div><div class="pt"><div class="pf" style="width:88%;background:var(--amber-m)">683 cas</div></div><div class="pm">29,5%</div></div>
+        <div class="pr"><div class="pn">30 à 60 jours</div><div class="pt"><div class="pf" style="width:37%;background:#C05010">292 cas</div></div><div class="pm">12,6%</div></div>
+        <div class="pr"><div class="pn">> 60 jours</div><div class="pt"><div class="pf" style="width:21%;background:var(--red-m)">163 cas</div></div><div class="pm" style="color:var(--red-m)">7,0%</div></div>
+        <div class="warn-box" style="margin-top:10px">
+          <div class="warn-title">48% des dossiers mettent plus de 14j à être soumis à WL</div>
+          <div class="warn-body">L'outil WL répond en 8j (médiane). Le vrai goulot est Inocrea → WL, pas WL → installation.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>🔄 Délai WL par mois (évolution)</h2><span class="src">CRM · email WL → installation</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Mai 2025</div><div class="pt"><div class="pf" style="width:100%;background:var(--amber-m)">17j moy · 9j méd</div></div></div>
+        <div class="pr"><div class="pn">Jun–Jul 2025</div><div class="pt"><div class="pf" style="width:100%;background:var(--amber-m)">18j moy · 8j méd</div></div></div>
+        <div class="pr"><div class="pn">Sep 2025</div><div class="pt"><div class="pf" style="width:70%;background:var(--teal-m)">12j moy · 7j méd</div></div></div>
+        <div class="pr"><div class="pn">Oct 2025</div><div class="pt"><div class="pf" style="width:58%;background:var(--teal-m)">10j moy · 6j méd</div></div></div>
+        <div class="pr"><div class="pn">Jan 2026</div><div class="pt"><div class="pf" style="width:41%;background:var(--teal-m)">7j moy · 6j méd</div></div></div>
+        <div class="pr"><div class="pn">Avr 2026</div><div class="pt"><div class="pf" style="width:35%;background:var(--teal-m)">6j moy · 6j méd</div></div></div>
+        <div class="ok-box" style="margin-top:10px">
+          <div class="ok-title">✓ WL s'améliore : délai passé de 18j à 6j en 12 mois</div>
+          <div class="ok-body">Le problème n'est pas Worldline. C'est la soumission des dossiers par Inocrea qui est lente (48% >14j).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COMMERCIAUX ═══ -->
+<div class="tc" id="tab-commerciaux">
+  <div style="margin-bottom:12px;font-size:12px;color:var(--ink3)">Analyse basée sur <strong style="color:var(--ink)">45 687 opportunités</strong> historiques · Taux correction = corrections / gagnés · Rétention = clients existants / gagnés</div>
+
+  <!-- TOP PERFORMERS -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="ch"><h2>🏆 Tableau de bord commerciaux</h2><span class="src">CRM · historique complet</span></div>
+    <div class="cb" style="padding:0">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Commercial actif</th>
+            <th class="rt">Gagnés 2026</th>
+            <th class="rt">Gagnés hist.</th>
+            <th class="rt">Conv%</th>
+            <th class="rt">Valeur totale</th>
+            <th class="ct">Correction%</th>
+            <th class="ct">Rétention</th>
+            <th class="ct">Cycle méd.</th>
+            <th class="ct">Top type</th>
+          </tr>
+        </thead>
+        <tbody id="comm-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FICHES DÉTAILLÉES -->
+  <div id="comm-cards"></div>
+</div>
+
+<!-- ═══ CORRECTIONS ═══ -->
+<div class="tc" id="tab-corrections">
+  <div class="kpis k3">
+    <div class="kpi re"><div class="k-lbl">Total corrections</div><div class="k-val">1 147</div><div class="k-sub">sur 45 687 opps</div></div>
+    <div class="kpi am"><div class="k-lbl">Taux global</div><div class="k-val">14,2%</div><div class="k-sub">des opps gagnées</div></div>
+    <div class="kpi gy"><div class="k-lbl">Top raison</div><div class="k-val">50%</div><div class="k-sub">"Autre" non qualifié</div></div>
+  </div>
+
+  <div class="anomaly-box">
+    <div class="anomaly-title">🚨 Raison "Autre" = 578/1 147 corrections (50%) — données inexploitables</div>
+    <div class="anomaly-body">La moitié des corrections sont catégorisées "Autre" sans détail. Il est impossible d'identifier les vrais problèmes récurrents. Le champ "Raison correction" doit devenir obligatoire avec des options précises.</div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>📋 Raisons de correction — toutes</h2><span class="src">CRM · 1 147 corrections</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Autre (non qualifié)</div><div class="pt"><div class="pf" style="width:100%;background:var(--border2)">578</div></div><div class="pm" style="color:var(--red-m)">50%</div></div>
+        <div class="pr"><div class="pn">Document manquant</div><div class="pt"><div class="pf" style="width:32%;background:var(--red-m)">162</div></div><div class="pm">14%</div></div>
+        <div class="pr"><div class="pn">Compte bancaire incorrect</div><div class="pt"><div class="pf" style="width:9%;background:var(--amber-m)">47</div></div><div class="pm">4%</div></div>
+        <div class="pr"><div class="pn">Carte d'identité non accept.</div><div class="pt"><div class="pf" style="width:9%;background:var(--amber-m)">43</div></div><div class="pm">4%</div></div>
+        <div class="pr"><div class="pn">Mauvais encodage contrat</div><div class="pt"><div class="pf" style="width:9%;background:var(--amber-m)">43</div></div><div class="pm">4%</div></div>
+        <div class="pr"><div class="pn">Document mal scanné</div><div class="pt"><div class="pf" style="width:7%;background:var(--blue-m)">34</div></div><div class="pm">3%</div></div>
+        <div class="pr"><div class="pn">Problème signature</div><div class="pt"><div class="pf" style="width:7%;background:var(--blue-m)">33</div></div><div class="pm">3%</div></div>
+        <div class="pr"><div class="pn">Carte identité illisible</div><div class="pt"><div class="pf" style="width:9%;background:var(--blue-m)">43</div></div><div class="pm">4%</div></div>
+        <div class="pr"><div class="pn">Gérant BCE différent</div><div class="pt"><div class="pf" style="width:5%;background:var(--purple-m)">23</div></div><div class="pm">2%</div></div>
+        <div class="pr"><div class="pn">RIB absent</div><div class="pt"><div class="pf" style="width:4%;background:var(--purple-m)">17</div></div><div class="pm">1,5%</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>👤 Corrections par commercial</h2><span class="src">CRM · taux = corr/gagnés</span></div>
+      <div class="cb">
+        <div class="heatmap" id="corr-heatmap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>💡 Ce que révèlent les corrections</h2><span class="src">Analyse</span></div>
+    <div class="cb">
+      <div class="g2">
+        <div>
+          <div class="warn-box" style="margin-bottom:8px">
+            <div class="warn-title">Documents KYC mal préparés (≈140 cas)</div>
+            <div class="warn-body">Carte d'identité non acceptée, illisible ou mal scannée : 86 cas. Compte bancaire incorrect : 47 cas. Les commerciaux n'ont pas de checklist documentaire avant soumission.</div>
+          </div>
+          <div class="warn-box" style="margin:0">
+            <div class="warn-title">Mauvais encodage contrat (43 cas)</div>
+            <div class="warn-body">Erreurs de saisie dans le CRM. Indique un manque de formation ou une interface trop complexe.</div>
+          </div>
+        </div>
+        <div>
+          <div class="ok-box" style="margin-bottom:8px">
+            <div class="ok-title">✓ Ismaïl Amezian : meilleur délai WL (7j) et fidélisation (61%)</div>
+            <div class="ok-body">Corr. 23%, cycle 33j, 24 deals Marketpay — profil le plus équilibré de l'équipe. À mettre en avant comme référence.</div>
+          </div>
+          <div class="anomaly-box" style="margin:0">
+            <div class="anomaly-title">Biagio Cacopardo : 47% · Dany Vermeulen : 46%</div>
+            <div class="anomaly-body">213 et 120 corrections sur leurs deals gagnés. Chaque deal nécessite en moyenne un aller-retour. Les raisons sont identifiées et actionnables : doc manquant, compte bancaire, mauvais encodage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RÉTENTION ═══ -->
+<div class="tc" id="tab-retention">
+  <div class="kpis k3">
+    <div class="kpi bl"><div class="k-lbl">Nouveau client (global)</div><div class="k-val">5 686</div><div class="k-sub">71,2% des gagnés qualifiés</div></div>
+    <div class="kpi tl"><div class="k-lbl">Client existant (global)</div><div class="k-val">2 285</div><div class="k-sub">28,6% — resignature</div></div>
+    <div class="kpi am"><div class="k-lbl">Mise à niveau</div><div class="k-val">24</div><div class="k-sub">0,3% upsell</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>🔄 Rétention par commercial — profils</h2><span class="src">CRM · gagnés qualifiés seulement</span></div>
+    <div class="cb">
+      <div class="heatmap" id="ret-heatmap"></div>
+      <div class="g2" style="margin-top:14px">
+        <div class="ok-box" style="margin:0">
+          <div class="ok-title">✓ SCHOONJANS, CACOPARDO, ABDI : chasseurs de fidélisation</div>
+          <div class="ok-body">56–73% de clients existants. Ces commerciaux entretiennent leur portefeuille et resignent leurs clients. Précieux pour le CA récurrent.</div>
+        </div>
+        <div class="warn-box" style="margin:0">
+          <div class="warn-title">Vermeulen (16%) et Burazerovic (21%) : chasseurs de nouveaux</div>
+          <div class="warn-body">13–21% de rétention. Fort volume de nouveaux clients. Excellent pour la croissance mais attention au churn si pas de suivi post-vente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>📍 Zones géographiques — Top CP gagnés</h2><span class="src">CRM · code postal prospection</span></div>
+    <div class="cb">
+      <div class="g2">
+        <div>
+          <div class="pr"><div class="pn">10xxx (Bruxelles)</div><div class="pt"><div class="pf" style="width:100%;background:var(--ink)">1 656</div></div><div class="pm">25,4%</div></div>
+          <div class="pr"><div class="pn">11xxx (Bruxelles E.)</div><div class="pt"><div class="pf" style="width:23%;background:var(--blue-m)">389</div></div><div class="pm">6,0%</div></div>
+          <div class="pr"><div class="pn">14xxx (Brabant W.)</div><div class="pt"><div class="pf" style="width:21%;background:var(--blue-m)">346</div></div><div class="pm">5,3%</div></div>
+          <div class="pr"><div class="pn">13xxx (Brabant W.)</div><div class="pt"><div class="pf" style="width:19%;background:var(--teal-m)">311</div></div><div class="pm">4,8%</div></div>
+          <div class="pr"><div class="pn">60xxx (Namur N.)</div><div class="pt"><div class="pf" style="width:15%;background:var(--teal-m)">248</div></div><div class="pm">3,8%</div></div>
+        </div>
+        <div>
+          <div class="pr"><div class="pn">50xxx (Namur)</div><div class="pt"><div class="pf" style="width:14%;background:var(--teal-m)">228</div></div><div class="pm">3,5%</div></div>
+          <div class="pr"><div class="pn">40xxx (Liège N.)</div><div class="pt"><div class="pf" style="width:13%;background:var(--amber-m)">219</div></div><div class="pm">3,4%</div></div>
+          <div class="pr"><div class="pn">70xxx (Hainaut)</div><div class="pt"><div class="pf" style="width:11%;background:var(--amber-m)">189</div></div><div class="pm">2,9%</div></div>
+          <div class="pr"><div class="pn">71xxx (Hainaut E.)</div><div class="pt"><div class="pf" style="width:10%;background:var(--amber-m)">165</div></div><div class="pm">2,5%</div></div>
+          <div class="pr"><div class="pn">62xxx (Liège)</div><div class="pt"><div class="pf" style="width:8%;background:var(--border2)">139</div></div><div class="pm">2,1%</div></div>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:10px">
+        <div class="warn-title">Bruxelles (10xxx) concentre 25,4% des deals gagnés</div>
+        <div class="warn-body">Forte concentration sur la capitale. Les régions wallonnes (Namur, Liège, Hainaut) représentent un potentiel de diversification géographique.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>💰 Organismes financiers utilisés</h2><span class="src">CRM · champ Organisme financier</span></div>
+    <div class="cb">
+      <div class="pr"><div class="pn">GRENKE</div><div class="pt"><div class="pf" style="width:100%;background:var(--red-m)">3 713 contrats</div></div><div class="pm">50,4%</div></div>
+      <div class="pr"><div class="pn">BNP Lease</div><div class="pt"><div class="pf" style="width:57%;background:var(--blue-m)">2 102 contrats</div></div><div class="pm">28,5%</div></div>
+      <div class="pr"><div class="pn">INOCREA (propre)</div><div class="pt"><div class="pf" style="width:48%;background:var(--teal-m)">1 795 contrats</div></div><div class="pm">24,4%</div></div>
+      <div class="pr"><div class="pn">Autre / Aucun</div><div class="pt"><div class="pf" style="width:2%;background:var(--border2)">88</div></div><div class="pm">1,2%</div></div>
+      <div class="anomaly-box" style="margin-top:10px">
+        <div class="anomaly-title">GRENKE = 50% des contrats de financement ET premier débiteur (44 912€)</div>
+        <div class="anomaly-body">Une dépendance critique à un seul partenaire financier défaillant. Toute friction avec GRENKE impacte directement la moitié du portefeuille financé.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WORLDLINE ACTIVATION & GIVE BACK ═══ -->
+<div class="tc" id="tab-worldline">
+  <div class="kpis k4">
+    <div class="kpi tl"><div class="k-lbl">Délai WL (médiane)</div><div class="k-val">8j</div><div class="k-sub">Email WL → installation</div><div class="k-d up">▲ S'améliore → 6j avr 2026</div></div>
+    <div class="kpi tl"><div class="k-lbl">TPD → RDV installation</div><div class="k-val">11j</div><div class="k-sub">médiane 6j · n=1 520</div></div>
+    <div class="kpi re"><div class="k-lbl">Activations bloquées 2026</div><div class="k-val">98</div><div class="k-sub">sur 304 feedbacks 2026</div></div>
+    <div class="kpi re"><div class="k-lbl">Give Back traitement</div><div class="k-val">93j</div><div class="k-sub">médiane 36j · max 637j</div></div>
+  </div>
+
+  <div class="ok-box">
+    <div class="ok-title">✓ Worldline répond de plus en plus vite — ce n'est pas le problème</div>
+    <div class="ok-body">Délai WL en constante amélioration : 17j (mai 2025) → 6j (avril 2026). Le goulot est côté Inocrea : 48% des dossiers mettent plus de 14 jours à être soumis à WL après signature. C'est le process interne qui est lent, pas WL.</div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>⚡ Activations TPD 2026 — statuts</h2><span class="src">Feedback TPD · 304 activations</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Terminé</div><div class="pt"><div class="pf" style="width:100%;background:var(--teal-m)">206</div></div><div class="pm" style="color:var(--teal)">67,8%</div></div>
+        <div class="pr"><div class="pn">Contrat vérifié att. activ.</div><div class="pt"><div class="pf" style="width:23%;background:var(--red-m)">48</div></div><div class="pm" style="color:var(--red-m)">15,8%</div></div>
+        <div class="pr"><div class="pn">Pré-config terminée</div><div class="pt"><div class="pf" style="width:8%;background:var(--amber-m)">16</div></div><div class="pm">5,3%</div></div>
+        <div class="pr"><div class="pn">Contrôle contrat</div><div class="pt"><div class="pf" style="width:7%;background:var(--amber-m)">15</div></div><div class="pm">4,9%</div></div>
+        <div class="pr"><div class="pn">Prise de RDV</div><div class="pt"><div class="pf" style="width:3%;background:var(--blue-m)">7</div></div><div class="pm">2,3%</div></div>
+        <div class="warn-box" style="margin-top:10px">
+          <div class="warn-title">32,2% des activations bloquées (98 sur 304)</div>
+          <div class="warn-body">48 contrats vérifiés mais pas encore activés par WL · 16 pré-configs terminées sans RDV planifié · 15 en contrôle contrat.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>↩ Give Backs — raisons et délais</h2><span class="src">Module Give Back · 94 dossiers</span></div>
+      <div class="cb">
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:10px">90/94 dossiers traités (91%) — 3 en attente</div>
+        <div class="pr"><div class="pn">Autre (non qualifié)</div><div class="pt"><div class="pf" style="width:100%;background:var(--border2)">230</div></div><div class="pm" style="color:var(--red-m)">79%</div></div>
+        <div class="pr"><div class="pn">Manque informations</div><div class="pt"><div class="pf" style="width:17%;background:var(--amber-m)">39</div></div><div class="pm">13%</div></div>
+        <div class="pr"><div class="pn">ID non valide/illisible</div><div class="pt"><div class="pf" style="width:6%;background:var(--blue-m)">14</div></div><div class="pm">5%</div></div>
+        <div class="pr"><div class="pn">Adresse terminal incorr.</div><div class="pt"><div class="pf" style="width:1%;background:var(--teal-m)">3</div></div><div class="pm">1%</div></div>
+        <div class="anomaly-box" style="margin-top:10px">
+          <div class="anomaly-title">Traitement Give Back : 93j en moyenne (max 637j)</div>
+          <div class="anomaly-body">Des give backs traités avec 637 jours de délai. La médiane (36j) montre que la majorité est traitée en 5 semaines, mais les cas complexes bloquent indéfiniment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EUROFIDES ═══ -->
+<div class="tc" id="tab-eurofides">
+  <div class="kpis k4">
+    <div class="kpi re"><div class="k-lbl">Comptes Eurofides</div><div class="k-val">139</div><div class="k-sub">sur 17 542 comptes</div></div>
+    <div class="kpi re"><div class="k-lbl">Statut "Ouvert"</div><div class="k-val">56</div><div class="k-sub">40% des dossiers Eurofides</div></div>
+    <div class="kpi am"><div class="k-lbl">Juridique / Judiciaire</div><div class="k-val">35</div><div class="k-sub">Juridique 18 · Judiciaire 17</div></div>
+    <div class="kpi re"><div class="k-lbl">Abonnements inactifs</div><div class="k-val">127</div><div class="k-sub">91% des comptes Eurofides</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>⚖ Statuts Eurofides</h2><span class="src">CRM · 139 comptes</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Ouvert</div><div class="pt"><div class="pf" style="width:100%;background:var(--amber-m)">56</div></div><div class="pm">40,3%</div></div>
+        <div class="pr"><div class="pn">Clôturé</div><div class="pt"><div class="pf" style="width:39%;background:var(--teal-m)">22</div></div><div class="pm">15,8%</div></div>
+        <div class="pr"><div class="pn">Juridique</div><div class="pt"><div class="pf" style="width:32%;background:var(--red-m)">18</div></div><div class="pm">12,9%</div></div>
+        <div class="pr"><div class="pn">Judiciaire</div><div class="pt"><div class="pf" style="width:30%;background:var(--red-m)">17</div></div><div class="pm">12,2%</div></div>
+        <div class="pr"><div class="pn">Mise en demeure</div><div class="pt"><div class="pf" style="width:9%;background:#A02020">5</div></div><div class="pm">3,6%</div></div>
+        <div class="warn-box" style="margin-top:10px">
+          <div class="warn-title">25% en procédure Juridique ou Judiciaire</div>
+          <div class="warn-body">35 dossiers en contentieux actif. Ces comptes ont 127/139 abonnements inactifs — les clients ont arrêté de payer ET résilié.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>📋 Traitement retard de paiement</h2><span class="src">CRM · 452 comptes</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">1er rappel traité</div><div class="pt"><div class="pf" style="width:100%;background:var(--amber-m)">328</div></div><div class="pm">72,6%</div></div>
+        <div class="pr"><div class="pn">Recouvrement traité</div><div class="pt"><div class="pf" style="width:36%;background:var(--red-m)">118</div></div><div class="pm">26,1%</div></div>
+        <div class="pr"><div class="pn">Résiliation traitée</div><div class="pt"><div class="pf" style="width:2%;background:var(--border2)">6</div></div><div class="pm">1,3%</div></div>
+        <div style="margin-top:12px">
+          <div class="ok-box" style="margin:0">
+            <div class="ok-title">Process de relance en 3 étapes identifié</div>
+            <div class="ok-body">1er rappel → Recouvrement Eurofides → Résiliation. 452 comptes en cours de traitement — le process existe. La question est sa vitesse d'exécution.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>🔗 Lien Eurofides ↔ Zoho Books</h2><span class="src">Cross-analyse</span></div>
+    <div class="cb">
+      <div class="anomaly-box">
+        <div class="anomaly-title">Déconnexion entre Eurofides et Books</div>
+        <div class="anomaly-body">Les 139 comptes Eurofides dans le CRM ne sont pas directement réconciliés avec les factures Overdue dans Books. Les 74 588€ Eurofides identifiés dans Books (115 factures) et les 221 116€ overdue total sont suivis dans deux systèmes séparés. Un rapprochement mensuel automatique est nécessaire.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DESK APPELS ═══ -->
+<div class="tc" id="tab-desk-deep">
+  <div class="kpis k4">
+    <div class="kpi gy"><div class="k-lbl">Total tickets 15 mois</div><div class="k-val">13 234</div><div class="k-sub">jan 2025 – avr 2026</div></div>
+    <div class="kpi tl"><div class="k-lbl">Appels 2026</div><div class="k-val">499</div><div class="k-sub">7/jour · 99,8% sortants</div></div>
+    <div class="kpi re"><div class="k-lbl">Réouverts</div><div class="k-val">3 549</div><div class="k-sub">27% — activation #1 raison</div></div>
+    <div class="kpi am"><div class="k-lbl">Résol. médiane Grenke</div><div class="k-val">3,3h</div><div class="k-sub">vs 1,6h global</div></div>
+  </div>
+
+  <!-- AGENTS -->
+  <div class="card">
+    <div class="ch"><h2>👤 Agents Desk — qui traite quoi</h2><span class="src">Zoho Desk · Ticket Owner</span></div>
+    <div class="cb" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Agent</th><th class="rt">Total</th><th class="rt">2026</th><th class="rt">Ouverts</th><th class="rt">Résil.</th><th class="rt">Réouv.</th><th class="rt">Tél.</th><th class="rt">Résol. méd.</th><th>Spécialité principale</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Agent A</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#925029</span></td>
+            <td class="mn rt">3 053</td><td class="mn rt" style="color:var(--teal-m)">781</td>
+            <td class="mn rt" style="color:var(--amber-m)">16</td>
+            <td class="mn rt">1 022</td>
+            <td class="mn rt" style="color:var(--red-m)">1 667</td>
+            <td class="mn rt">1 023</td>
+            <td class="mn rt" style="color:var(--teal-m)">1,6h</td>
+            <td><span class="pill p-b">Partners WL</span> <span class="pill p-t">Activations</span> <span class="pill p-p">Feedback WL</span></td>
+          </tr>
+          <tr style="opacity:.55">
+            <td><strong>Agent B</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#183005</span></td>
+            <td class="mn rt">2 286</td><td class="mn rt" style="color:var(--ink3)">0</td>
+            <td class="mn rt">0</td><td class="mn rt">1 089</td><td class="mn rt">904</td><td class="mn rt">1 089</td>
+            <td class="mn rt" style="color:var(--teal-m)">0,7h</td>
+            <td><span style="font-size:10px;color:var(--ink3)">Plus actif 2026 · Résil+Contrats+Grenke</span></td>
+          </tr>
+          <tr style="opacity:.55">
+            <td><strong>Agent C</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#125025</span></td>
+            <td class="mn rt">973</td><td class="mn rt" style="color:var(--ink3)">0</td>
+            <td class="mn rt">0</td><td class="mn rt">139</td><td class="mn rt">279</td><td class="mn rt">146</td>
+            <td class="mn rt" style="color:var(--amber-m)">8,7h</td>
+            <td><span style="font-size:10px;color:var(--ink3)">Plus actif · Commerciaux+Grenke+Documents</span></td>
+          </tr>
+          <tr>
+            <td><strong>Agent D</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#766162</span></td>
+            <td class="mn rt">678</td><td class="mn rt" style="color:var(--teal-m)">547</td>
+            <td class="mn rt" style="color:var(--amber-m)">4</td>
+            <td class="mn rt">90</td>
+            <td class="mn rt" style="color:var(--amber-m)">307</td>
+            <td class="mn rt">219</td>
+            <td class="mn rt" style="color:var(--teal-m)">1,2h</td>
+            <td><span class="pill p-p">Commerciaux</span> <span class="pill p-b">Partners WL</span> <span class="pill p-t">Activations</span></td>
+          </tr>
+          <tr>
+            <td><strong>Agent E</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#757005</span></td>
+            <td class="mn rt">225</td><td class="mn rt" style="color:var(--ink3)">6</td>
+            <td class="mn rt">0</td><td class="mn rt">5</td><td class="mn rt">35</td><td class="mn rt">6</td>
+            <td class="mn rt" style="color:var(--red-m)">14,5h</td>
+            <td><span class="pill p-r">GRENKE spécialiste</span> <span style="font-size:10px;color:var(--ink3)">103 tickets Grenke · docs</span></td>
+          </tr>
+          <tr>
+            <td><strong>Agent F</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">#736261</span></td>
+            <td class="mn rt">196</td><td class="mn rt" style="color:var(--teal-m)">112</td>
+            <td class="mn rt" style="color:var(--red-m)">13</td>
+            <td class="mn rt">4</td>
+            <td class="mn rt">41</td>
+            <td class="mn rt">6</td>
+            <td class="mn rt" style="color:var(--red-m)">188,9h ⚠</td>
+            <td><span class="pill p-n">Divers</span> <span class="pill p-a">Clients</span> <span style="font-size:10px;color:var(--red-m)">13 tickets ouverts</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:9px 14px;background:var(--paper);font-size:11px;color:var(--ink3)">
+        Agents en grisé = plus actifs en 2026 (départs/réaffectations). Agents actifs 2026 : <strong>A</strong> (781 tickets) et <strong>D</strong> (547 tickets).
+      </div>
+    </div>
+  </div>
+
+  <div class="anomaly-box">
+    <div class="anomaly-title">🚨 Agent F (#736261) — résolution médiane 188,9h avec 13 tickets ouverts</div>
+    <div class="anomaly-body">Le délai de résolution médian de l'Agent F est <strong>188,9 heures</strong> (presque 8 jours) contre 1,2h pour l'Agent D. Il a 13 tickets ouverts en cours dont plusieurs anciens (41j, 39j). Son portefeuille inclut "Urgent!", "lv" (contenu inconnu), et plusieurs interventions terrain non clôturées.</div>
+  </div>
+
+  <!-- SUJETS RÉCURRENTS -->
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>📋 Sujets récurrents — tous tickets</h2><span class="src">Desk · 13 234 tickets</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Activation terminal</div><div class="pt"><div class="pf" style="width:100%;background:var(--blue-m)">2 388</div></div><div class="pm">18,0%</div></div>
+        <div class="pr"><div class="pn">Contrat</div><div class="pt"><div class="pf" style="width:37%;background:var(--teal-m)">884</div></div><div class="pm">6,7%</div></div>
+        <div class="pr"><div class="pn">Grenke</div><div class="pt"><div class="pf" style="width:37%;background:var(--red-m)">880</div></div><div class="pm">6,6%</div></div>
+        <div class="pr"><div class="pn">Facturation</div><div class="pt"><div class="pf" style="width:25%;background:var(--amber-m)">604</div></div><div class="pm">4,6%</div></div>
+        <div class="pr"><div class="pn">Give Back</div><div class="pt"><div class="pf" style="width:23%;background:var(--purple-m)">555</div></div><div class="pm">4,2%</div></div>
+        <div class="pr"><div class="pn">Résiliation</div><div class="pt"><div class="pf" style="width:15%;background:var(--red-m)">358</div></div><div class="pm">2,7%</div></div>
+        <div class="pr"><div class="pn">TID/Terminal</div><div class="pt"><div class="pf" style="width:9%;background:var(--teal-m)">221</div></div><div class="pm">1,7%</div></div>
+        <div class="pr"><div class="pn">Worldline (direct)</div><div class="pt"><div class="pf" style="width:8%;background:var(--wl)">199</div></div><div class="pm">1,5%</div></div>
+        <div class="pr"><div class="pn">Rappel Grenke/BNP</div><div class="pt"><div class="pf" style="width:6%;background:var(--border2)">150</div></div><div class="pm">1,1%</div></div>
+        <div class="pr"><div class="pn">UBO</div><div class="pt"><div class="pf" style="width:5%;background:var(--amber-m)">129</div></div><div class="pm">1,0%</div></div>
+        <div class="warn-box" style="margin-top:10px">
+          <div class="warn-title">18% des tickets = activation terminal · 1 492 réouvertures sur ce sujet</div>
+          <div class="warn-body">L'activation est le sujet n°1 ET le sujet le plus réouvert (1 492 tickets réouverts). Chaque activation mal gérée revient 1,5 fois en moyenne. Lien direct avec les 84 activations bloquées dans le CRM.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><h2>⏱ Temps de résolution par sujet</h2><span class="src">Desk · médiane vs moyenne</span></div>
+      <div class="cb" style="padding:0">
+        <table class="tbl">
+          <thead><tr><th>Sujet</th><th class="rt">N</th><th class="rt">Médiane</th><th class="rt">Moyenne</th><th>Analyse</th></tr></thead>
+          <tbody>
+            <tr><td>Résiliation</td><td class="mn rt">299</td><td class="mn rt" style="color:var(--amber-m)">4,3h</td><td class="mn rt" style="color:var(--red-m)">103,7h</td><td><span class="pill p-r">Outliers longs</span></td></tr>
+            <tr><td>Facture</td><td class="mn rt">517</td><td class="mn rt" style="color:var(--amber-m)">2,0h</td><td class="mn rt" style="color:var(--red-m)">73,0h</td><td><span class="pill p-a">Contestations</span></td></tr>
+            <tr><td>Contrat</td><td class="mn rt">893</td><td class="mn rt" style="color:var(--teal-m)">1,4h</td><td class="mn rt" style="color:var(--amber-m)">63,3h</td><td><span class="pill p-n">Variable</span></td></tr>
+            <tr><td>Grenke</td><td class="mn rt">880</td><td class="mn rt" style="color:var(--amber-m)">3,3h</td><td class="mn rt" style="color:var(--amber-m)">48,9h</td><td><span class="pill p-r">Complexe</span></td></tr>
+            <tr><td>Give Back</td><td class="mn rt">555</td><td class="mn rt" style="color:var(--teal-m)">1,9h</td><td class="mn rt" style="color:var(--teal-m)">24,3h</td><td><span class="pill p-n">Correct</span></td></tr>
+            <tr><td>Activation</td><td class="mn rt">2 376</td><td class="mn rt" style="color:var(--teal-m)">1,6h</td><td class="mn rt" style="color:var(--amber-m)">39,2h</td><td><span class="pill p-a">Réouvertures</span></td></tr>
+          </tbody>
+        </table>
+        <div style="padding:9px 12px;background:var(--amber-bg);border-top:1px solid var(--border)">
+          <div style="font-size:11px;color:var(--amber);font-weight:600;margin-bottom:2px">Résiliation : médiane 4,3h mais moyenne 103,7h</div>
+          <div style="font-size:11px;color:var(--amber-m)">Quelques dossiers de résiliation complexes (DUBAIL 388j) tirent massivement la moyenne. Ces cas extrêmes cachent une bonne performance de base.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TENDANCES MENSUELLES 2026 -->
+  <div class="card">
+    <div class="ch"><h2>📈 Tendances mensuelles 2026 — sujets principaux</h2><span class="src">Desk · jan → avr 2026</span></div>
+    <div class="cb" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Mois</th><th class="rt">Total</th><th class="rt" style="color:var(--blue-m)">Activation</th><th class="rt" style="color:var(--red-m)">Résiliation</th><th class="rt">Contrat</th><th class="rt">Facture</th><th class="rt" style="color:var(--red-m)">Grenke</th><th class="rt">Give Back</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mn">Jan 2026</td>
+            <td class="mn rt">774</td>
+            <td class="mn rt" style="color:var(--blue-m)">91</td>
+            <td class="mn rt" style="color:var(--red-m)">119</td>
+            <td class="mn rt">66</td>
+            <td class="mn rt">57</td>
+            <td class="mn rt" style="color:var(--red-m)">59</td>
+            <td class="mn rt">40</td>
+          </tr>
+          <tr>
+            <td class="mn">Fév 2026</td>
+            <td class="mn rt">736</td>
+            <td class="mn rt" style="color:var(--blue-m)">120 ▲</td>
+            <td class="mn rt">86</td>
+            <td class="mn rt">82 ▲</td>
+            <td class="mn rt">35</td>
+            <td class="mn rt" style="color:var(--amber-m)">46</td>
+            <td class="mn rt">35</td>
+          </tr>
+          <tr>
+            <td class="mn">Mar 2026</td>
+            <td class="mn rt">805</td>
+            <td class="mn rt" style="color:var(--blue-m);font-weight:600">155 ▲▲</td>
+            <td class="mn rt">101</td>
+            <td class="mn rt">81</td>
+            <td class="mn rt">42</td>
+            <td class="mn rt" style="color:var(--red-m);font-weight:600">62 ▲</td>
+            <td class="mn rt">38</td>
+          </tr>
+          <tr style="background:var(--paper)">
+            <td class="mn">Avr 2026 (14j)</td>
+            <td class="mn rt">376</td>
+            <td class="mn rt" style="color:var(--blue-m)">59</td>
+            <td class="mn rt">61</td>
+            <td class="mn rt">33</td>
+            <td class="mn rt">13</td>
+            <td class="mn rt" style="color:var(--amber-m)">17</td>
+            <td class="mn rt">18</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:9px 14px;background:var(--blue-bg);border-top:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--blue);font-weight:600;margin-bottom:2px">Activations en hausse : 91 → 155 de janvier à mars 2026 (+70%)</div>
+        <div style="font-size:11px;color:var(--blue-m)">Paradoxe : les activations Desk augmentent alors que le CA baisse. Hypothèse : des contrats signés tardent à être activés et génèrent des relances support — cohérent avec les 84 activations bloquées dans le CRM.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RÉOUVERTURES PAR SUJET -->
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><h2>🔄 Sujets les plus réouverts</h2><span class="src">Desk · 3 549 réouvertures</span></div>
+      <div class="cb">
+        <div class="pr"><div class="pn">Activation</div><div class="pt"><div class="pf" style="width:100%;background:var(--red-m)">1 492</div></div><div class="pm" style="color:var(--red-m)">42%</div></div>
+        <div class="pr"><div class="pn">Autre (non classé)</div><div class="pt"><div class="pf" style="width:85%;background:var(--border2)">1 262</div></div><div class="pm">36%</div></div>
+        <div class="pr"><div class="pn">Contrat</div><div class="pt"><div class="pf" style="width:19%;background:var(--teal-m)">288</div></div><div class="pm">8%</div></div>
+        <div class="pr"><div class="pn">Facture</div><div class="pt"><div class="pf" style="width:16%;background:var(--amber-m)">238</div></div><div class="pm">7%</div></div>
+        <div class="pr"><div class="pn">Résiliation</div><div class="pt"><div class="pf" style="width:7%;background:var(--red-m)">104</div></div><div class="pm">3%</div></div>
+        <div class="pr"><div class="pn">Grenke</div><div class="pt"><div class="pf" style="width:6%;background:var(--red-m)">84</div></div><div class="pm">2%</div></div>
+        <div class="anomaly-box" style="margin-top:10px">
+          <div class="anomaly-title">42% des réouvertures = activation · problème non résolu à la racine</div>
+          <div class="anomaly-body">1 492 tickets d'activation réouverts. La résolution initiale est superficielle — le terminal est "activé" dans le système mais pas opérationnel chez le client. Le vrai problème (configuration, matériel, réseau) n'est pas traité.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h2>⏳ Tickets ouverts anciens — par agent</h2><span class="src">Desk · 14 avr. 2026</span></div>
+      <div class="cb" style="padding:0">
+        <table class="tbl">
+          <thead><tr><th>Sujet</th><th class="rt">Âge</th><th>Agent</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--red-m);font-weight:500">Résiliation DUBAIL — mise en demeure</td><td class="mn rt" style="color:var(--red-m)">388j</td><td><span class="pill p-n">Non assigné</span></td></tr>
+            <tr><td>Contestation facturation</td><td class="mn rt" style="color:var(--red-m)">237j</td><td><span class="pill p-n">Non assigné</span></td></tr>
+            <tr><td>BE1023839057 Sbahi</td><td class="mn rt" style="color:var(--red-m)">154j</td><td><span class="pill p-b">Agent A</span></td></tr>
+            <tr><td>Demande d'intervention</td><td class="mn rt" style="color:var(--amber-m)">91j</td><td><span class="pill p-a">Agent F</span></td></tr>
+            <tr><td>Résiliation DS SRL</td><td class="mn rt" style="color:var(--amber-m)">68j</td><td><span class="pill p-b">Agent A</span></td></tr>
+            <tr><td>Client AMS — Signature</td><td class="mn rt" style="color:var(--amber-m)">66j</td><td><span class="pill p-a">Agent F</span></td></tr>
+            <tr><td>Compte Bancaire</td><td class="mn rt" style="color:var(--amber-m)">59j</td><td><span class="pill p-a">Agent F</span></td></tr>
+            <tr><td>Mise en demeure (dagvaarding)</td><td class="mn rt" style="color:var(--amber-m)">41j</td><td><span class="pill p-b">Agent A</span></td></tr>
+            <tr><td>Urgent!</td><td class="mn rt" style="color:var(--amber-m)">41j</td><td><span class="pill p-a">Agent F</span></td></tr>
+            <tr><td>lv (contenu inconnu)</td><td class="mn rt" style="color:var(--amber-m)">39j</td><td><span class="pill p-a">Agent F</span></td></tr>
+          </tbody>
+        </table>
+        <div style="padding:8px 12px;background:var(--red-bg);font-size:11px;color:var(--red-m)">⚠ 2 tickets critiques sans assignation · Agent F : 5 des 10 tickets anciens</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FRICTIONS PROCESS ═══ -->
+<div class="tc" id="tab-frictions">
+  <div style="margin-bottom:12px;font-size:12px;color:var(--ink3)">Frictions structurelles identifiées par l'analyse des données. Classées par impact sur le business.</div>
+  <div id="frictions-deep"></div>
+</div>
+
+<!-- ═══ RAPPORT IA ═══ -->
+<div class="tc" id="tab-rapport">
+  <div id="rpt-empty" style="text-align:center;padding:40px 16px;color:var(--ink3)">
+    <div style="font-size:28px;margin-bottom:8px">✦</div>
+    <h3 style="font-size:13px;color:var(--ink2);margin-bottom:4px">Rapport non généré</h3>
+    <p style="font-size:11px">Cliquez sur <strong>"▶ Analyser"</strong> pour générer l'analyse IA approfondie.</p>
+  </div>
+  <div id="rpt-content" style="display:none">
+    <div style="background:var(--ink);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:30px;height:30px;background:linear-gradient(135deg,#5EE8A4,#60A5FA);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">✦</div>
+      <div><div style="color:#fff;font-size:12px;font-weight:600;margin-bottom:2px">Rapport IA — Analyse Approfondie Inocrea</div><p style="color:#777;font-size:11px">Généré le <span id="rpt-date"></span></p></div>
+    </div>
+    <div id="rpt-sections"></div>
+  </div>
+</div>
+
+</div><!-- ═══ LIVE QUOTIDIEN ═══ -->
+<div class="tc" id="tab-live">
+  <div id="live-empty" style="text-align:center;padding:40px 16px;color:var(--ink3)">
+    <div style="font-size:28px;margin-bottom:8px">📡</div>
+    <h3 style="font-size:13px;color:var(--ink2);margin-bottom:4px">Données quotidiennes non chargées</h3>
+    <p style="font-size:11px">Lancez <code>node fetch.js</code> pour mettre à jour le dashboard.</p>
+  </div>
+  <div id="live-content" style="display:none"></div>
+</div>
+
+</div></div><!-- /main -->
+
+<!-- CHAT PANEL -->
+<div class="chat-panel">
+  <div class="chat-header">
+    <div class="chat-header-l">
+      <div class="chat-avatar">✦</div>
+      <div>
+        <div class="chat-title">Copilote IA</div>
+        <div class="chat-sub" id="chat-status">En ligne</div>
+      </div>
+    </div>
+    <button onclick="toggleQuestions()" style="background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:10px;cursor:pointer;color:var(--ink3);font-family:var(--mono)" id="qq-toggle">Q ▾</button>
+  </div>
+
+  <!-- Questions rapides (collapsibles) -->
+  <div id="chat-qq" style="border-bottom:1px solid var(--border);flex-shrink:0;max-height:110px;overflow-y:auto;padding:7px 10px">
+    <div class="qq-chips">
+      <button class="qq-chip" onclick="askQ(this)">Cacopardo 47% corrections ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Réduire délai envoi WL ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Purger dossiers zombie ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Meilleurs commerciaux actifs ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Give Back 93j — accélérer ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Plan Eurofides</button>
+      <button class="qq-chip" onclick="askQ(this)">Vermeulen vs Burazerovic ?</button>
+      <button class="qq-chip" onclick="askQ(this)">Top 5 actions semaine</button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg ai">
+      <div class="msg-av ai">✦</div>
+      <div>
+        <div class="msg-bubble">Connecté aux données d'Inocrea.<br><br>Temps par étape, <strong>taux de correction</strong> par commercial, délais WL, Desk — posez vos questions.</div>
+        <div class="msg-time">Maintenant</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saisie -->
+  <div class="chat-input-wrap">
+    <textarea class="chat-input" id="chat-input" placeholder="Votre question…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-send" id="chat-send" onclick="sendMsg()">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
+  </div>
+</div>
+
+</div><!-- /body -->
+
+<script>
+// DATA_START — généré le 2026-01-01 à 07:00
+const DATA = {};
+// DATA_END
+
+// ════════════════════════════════════
+// DONNÉES ANALYSÉES
+// ════════════════════════════════════
+const INOCREA_DEEP = `=== INOCREA — Analyse Approfondie · 14 avril 2026 ===
+
+MODULE OPPORTUNITÉS · ÉTAPES ET DURÉES :
+Étapes avec dossiers ZOMBIE (âge moyen > 1000j) :
+- Call Center check: 1 064 dossiers · âge moy 2 351j (6,4 ans!) · max 2 876j
+- Contrat à récupérer: 11 dossiers · âge moy 2 058j
+- Needs Analysis: 10 dossiers · âge moy 1 786j
+- Proposition: 114 dossiers · âge moy 1 663j
+Étapes saines (< 100j) :
+- Rendez-vous pris: 104 dossiers · 46j moy / 21j med
+- Négociation: 69 dossiers · 48j moy / 40j med
+- En attente WL & MP: 24 dossiers · 26j moy / 18j med
+- En correction: 8 dossiers · 46j moy
+- En validation financement: 8 dossiers · 48j moy
+Problèmes admin :
+- Renting incomplet: 93j moy / 66j med
+- Traitement UBO: 80j moy / 60j med
+- À compléter: 71j moy
+
+CYCLES DE VENTE PAR TYPE :
+Worldline: n=6822 · moy 108j · MÉD 19j · max 1989j (outliers = zombies)
+Marketpay: n=56 · moy 21j · méd 15j (cohérent)
+Inoresto: n=40 · moy 10j · méd 8j (le plus rapide)
+Temps création → signature contrat : moy 21j · méd 11j (n=3076)
+
+PROCESSUS WL :
+Création OPP → Email WL: moy 23j · méd 13j · max 482j
+  Distribution: <7j 778(33%) / 7-14j 403(17%) / 14-30j 683(30%) / 30-60j 292(13%) / >60j 163(7%)
+Email WL → Installation: moy 14j · méd 8j · max 280j · EN AMÉLIORATION
+  Jan 2026: 7j · Fév 2026: 10j · Mar 2026: 10j · Avr 2026: 6j
+  → WL répond bien et s'améliore. LE PROBLÈME EST LA SOUMISSION TARDIVE PAR INOCREA.
+Réception contrat → Installation: moy 22j · méd 13j (n=3883)
+TPD Création → RDV: moy 11j · méd 6j (n=1520)
+
+CORRECTIONS INTERNES (1 147 dossiers) :
+Raisons: Autre 578(50%) · Document manquant 162(14%) · Compte bancaire incorrect 47(4%)
+  Carte ID non acceptée 43(4%) · Mauvais encodage 43(4%) · Doc mal scanné 34(3%)
+  Problème signature 33(3%) · Gérant BCE différent 23(2%) · RIB absent 17(2%)
+TAUX PAR COMMERCIAL :
+  Biagio CACOPARDO: 213 corr / 456 gagnés = 47% (CRITIQUE)
+  Dany VERMEULEN: 120 corr / 259 gagnés = 46% (CRITIQUE)
+  Astrid Van de Graaf: 50 corr / 112 gagnés = 45%
+  Kevin De Wever: 19 corr / 30 gagnés = 63% (petit volume)
+  Gilles Claeyé: 20 corr / 24 gagnés = 83% (petit volume)
+  Youssef Aboulahmada: 78 corr / 186 gagnés = 42%
+  Tarik Burazerovic: 53 corr / 143 gagnés = 37%
+  Ismaïl Amezian: 78 corr / 335 gagnés = 23% (meilleur parmi les actifs)
+  Mehdi BRAHAM: 149 corr / 768 gagnés = 19%
+
+PERFORMANCE COMMERCIAUX ACTIFS (6 commerciaux département Commercial statut Actif) :
+Mehdi Braham:     3306 opps · 768 gagnés · conv 25% · 1,7M€ · corr 19% · ret 39% · cycle méd 44j · pipe 87/25k€ · nego 18 · WL med 8j
+Jonathan Schoonjans: 1714 opps · 472 gagnés · conv 30% · 1,3M€ · corr 28% · ret 56% · cycle méd 37j · pipe 30/32k€ · nego 8 · WL med 8j
+Biagio Cacopardo: 1419 opps · 456 gagnés · conv 35% · 1,2M€ · corr 47%(!) · ret 54% · cycle méd 34j · pipe 49/40k€ · nego 11 · WL med 8j
+Ismaïl Amezian:   1316 opps · 335 gagnés · conv 27% · 0,8M€ · corr 23% · ret 61% · cycle méd 33j · pipe 44/5k€ · nego 16 · WL med 7j(meilleur)
+Dany Vermeulen:    602 opps · 259 gagnés · conv 47% · 0,9M€ · corr 46%(!) · ret 16% · cycle méd 16j · pipe 24/47k€ · nego 6 · WL med 10j(plus lent)
+Tarik Burazerovic: 309 opps · 143 gagnés · conv 55%(meilleur) · 0,3M€ · corr 37% · ret 21% · cycle méd 14j(plus court) · pipe 33/31k€ · nego 7
+
+CORRECTIONS PAR COMMERCIAL :
+Cacopardo (47%): Autre 121, Doc manquant 26, Compte bancaire 26, Mauvais encodage 14, Doc mal scanné 13
+Vermeulen (46%): Autre 83, Doc manquant 20, Mauvais encodage 12, Carte ID 6
+Schoonjans (28%): Autre 81, Doc manquant 22, Compte bancaire 9, Mauvais encodage 6
+Amezian (23%): Autre 45, Doc manquant 18, Carte ID 5
+Braham (19%): Autre 84, Doc manquant 41, Carte ID 7, Problème signature 6
+Burazerovic (37%): Autre 29, Doc manquant 10, Gérant BCE différent 4, RIB absent 4
+
+RÉTENTION PAR COMMERCIAL :
+Amezian 61%, Schoonjans 56%, Cacopardo 54%, Braham 39%, Burazerovic 21%, Vermeulen 16%
+
+TYPES GAGNÉS :
+Braham: WL 650, MP 1 · Schoonjans: WL 454, MP 15 · Cacopardo: WL 454 seulement
+Amezian: WL 308, MP 24 · Vermeulen: WL 180, MP 48, INO 31 (seul à faire les 3) · Burazerovic: WL 122, MP 21
+
+ZONES GÉOGRAPHIQUES :
+Bruxelles 10xxx: 1656 (25,4%) · 11xxx: 389 (6%) · Brabant W 14xxx: 346 (5,3%)
+Namur 60xxx: 248 (3,8%) · 50xxx: 228 (3,5%) · Liège 40xxx: 219 · Hainaut 70xxx: 189
+
+ORGANISMES FINANCIERS :
+GRENKE: 3713 contrats (50%) · BNP Lease: 2102 (28,5%) · INOCREA propre: 1795 (24,4%)
+
+GIVE BACKS (94 dossiers) :
+Statuts: 91 traités · 3 en attente (Het Warredal, Cabinet Médical Louis, Little Haris)
+Raisons: Autre 230 · Manque infos 39 · ID invalide 14
+Délai: moy 93j · méd 36j · max 637j
+
+EUROFIDES (139 comptes) :
+Statuts: Ouvert 56 · Clôturé 22 · Juridique 18 · Judiciaire 17 · Mise en demeure 5
+Abonnements: Inactif 127/139 (91%)
+Process retard paiement: 1er rappel 328 · Recouvrement 118 · Résiliation 6
+
+DESK APPELS (2 026) :
+Total appels: 499 (jan-avr 2026) · Moy 7/jour · Max 19/jour
+Sortants: 498/499 (99,8%) — Inocrea appelle quasi toujours
+Sujets: Activation 89 · Contrat 88 · Facture 76 · Document 28 · Résiliation 27
+Classifications: Partners WL 300 (60%) · Interne 105 (21%) · Commerciaux 43 · Grenke 26`;
+
+// DONNÉES COMMERCIAUX — 6 ACTIFS UNIQUEMENT (statut Actif · département Commercial)
+const COMMERCIAUX = [
+  {
+    name:'Mehdi Braham', total:3306, gagnes:768, conv:25.4, valeur:1704721,
+    gagnes_2026:18, conv_2026:21.4, val_2026:32560,
+    pipeline:87, val_pipe:25369, nego:18,
+    corr:149, taux_corr:19, ret:39, cycle_med:44, cycle_moy:65,
+    new_c:450, exist_c:298,
+    types_gagnes:{Worldline:650,Marketpay:1,ND:117},
+    corr_raisons:{'Autre':84,'Document manquant':41,"Carte d'identité non accept.":7,'Problème signature':6},
+    raisons_ps:{'Problème prix':8,'Other':5,'Satisfaction WL':3},
+    etapes_pipe:{'Proposition':44,'Négociation':18,'Rendez-vous pris':14,'En correction':3,'Renting incomplet':3},
+    wl_med:8, wl_moy:13,
+    profil:'Profil fidélisation (39%) · conversion 25% à améliorer · doc ID récurrents'
+  },
+  {
+    name:'Jonathan Schoonjans', total:1714, gagnes:472, conv:29.9, valeur:1320251,
+    gagnes_2026:15, conv_2026:21.4, val_2026:33321,
+    pipeline:30, val_pipe:32362, nego:8,
+    corr:133, taux_corr:28, ret:56, cycle_med:37, cycle_moy:57,
+    new_c:198, exist_c:265,
+    types_gagnes:{Worldline:454,Marketpay:15,ND:3},
+    corr_raisons:{'Autre':81,'Document manquant':22,'Compte bancaire incorrect':9,'Mauvais encodage':6},
+    raisons_ps:{'Other':9,'Satisfaction WL':7,'Client existant':6},
+    etapes_pipe:{'Rendez-vous pris':12,'Négociation':8,"Attente activation WL":2,'Renting incomplet':2,'Signé':1},
+    wl_med:8, wl_moy:13,
+    profil:'Champion fidélisation (56%) · Satisfaction WL = 7 pertes · compte bancaire fréquent'
+  },
+  {
+    name:'Biagio Cacopardo', total:1419, gagnes:456, conv:34.6, valeur:1170220,
+    gagnes_2026:13, conv_2026:27.1, val_2026:27627,
+    pipeline:49, val_pipe:39707, nego:11,
+    corr:213, taux_corr:47, ret:54, cycle_med:34, cycle_moy:46,
+    new_c:204, exist_c:244,
+    types_gagnes:{Worldline:454,ND:2},
+    corr_raisons:{'Autre':121,'Document manquant':26,'Compte bancaire incorrect':26,'Mauvais encodage':14,'Doc mal scanné':13},
+    raisons_ps:{'Other':9,'Problème prix':6},
+    etapes_pipe:{'Rendez-vous pris':21,'Négociation':11,'Attente activation WL':3,'Attribuer TID':3,'En validation financement':4},
+    wl_med:8, wl_moy:13,
+    profil:'⚠ 47% de corrections · KYC incomplet systématique · meilleur pipeline (40k€)'
+  },
+  {
+    name:'Ismaïl Amezian', total:1316, gagnes:335, conv:27.4, valeur:808830,
+    gagnes_2026:18, conv_2026:24.7, val_2026:32310,
+    pipeline:44, val_pipe:5042, nego:16,
+    corr:78, taux_corr:23, ret:61, cycle_med:33, cycle_moy:46,
+    new_c:128, exist_c:204,
+    types_gagnes:{Worldline:308,Marketpay:24,ND:3},
+    corr_raisons:{'Autre':45,'Document manquant':18,"Carte d'identité non accept.":5,'Problème signature':3},
+    raisons_ps:{'Other':15,'Problème prix':4,'Satisfaction WL':2},
+    etapes_pipe:{'Rendez-vous pris':21,'Négociation':16,'En attente paiement':3,'Attente activation WL':2,'À compléter':2},
+    wl_med:7, wl_moy:11,
+    profil:'Champion fidélisation (61%) · meilleur délai WL (7j) · 24 deals Marketpay signés'
+  },
+  {
+    name:'Dany Vermeulen', total:602, gagnes:259, conv:46.9, valeur:900809,
+    gagnes_2026:11, conv_2026:29.7, val_2026:29002,
+    pipeline:24, val_pipe:46736, nego:6,
+    corr:120, taux_corr:46, ret:16, cycle_med:16, cycle_moy:25,
+    new_c:215, exist_c:42,
+    types_gagnes:{Worldline:180,Marketpay:48,Inoresto:31},
+    corr_raisons:{'Autre':83,'Document manquant':20,'Mauvais encodage contrat':12,"Carte d'identité":6},
+    raisons_ps:{'Problème prix':6,'Other':5},
+    etapes_pipe:{'Rendez-vous pris':7,'Négociation':6,'Attente activation WL':5,'Traitement UBO':2},
+    wl_med:10, wl_moy:18,
+    profil:'⚠ 46% corrections · cycle ultra-court (16j) · seul à signer WL+MP+Inoresto'
+  },
+  {
+    name:'Tarik Burazerovic', total:309, gagnes:143, conv:55.2, valeur:315566,
+    gagnes_2026:16, conv_2026:24.2, val_2026:31048,
+    pipeline:33, val_pipe:31352, nego:7,
+    corr:53, taux_corr:37, ret:21, cycle_med:14, cycle_moy:16,
+    new_c:112, exist_c:30,
+    types_gagnes:{Worldline:122,Marketpay:21},
+    corr_raisons:{'Autre':29,'Document manquant':10,'Gérant BCE différent':4,'Mauvais encodage':4,'RIB absent':4},
+    raisons_ps:{'Other':11,'Problème prix':1},
+    etapes_pipe:{'Rendez-vous pris':9,'Attente activation WL':8,'Négociation':7,'Prise de RDV':2,'Attribuer TID':2},
+    wl_med:8, wl_moy:18,
+    profil:'Meilleure conversion (55%) · cycle le plus court (14j) · Gérant BCE = vérification légale manquante'
+  },
+];
+
+// FRICTIONS PROFONDES
+const FRICTIONS_DEEP = [
+  {level:'CRITIQUE',title:'Pipeline zombie : 6+ ans d\'âge moyen en CC check',impact:'Métriques faussées · 1064 dossiers morts',
+   desc:'Les 1 153 dossiers en "Call Center check" ont un âge moyen de 2 351 jours (6,4 ans). Certains ont 2 876 jours. Ce ne sont pas des prospects — ce sont des dossiers créés entre 2017 et 2019 jamais archivés. Même problème pour "Proposition" (1 663j), "Needs Analysis" (1 786j).',
+   causes:['Pas de SLA ou de règle d\'archivage automatique dans le CRM','Jamais de campagne de nettoyage du pipeline','Les métriques de pipeline incluent ces dossiers morts → chiffres inutilisables'],
+   solutions:['Archiver automatiquement tout dossier sans activité depuis >180j (6 mois)','Campagne de nettoyage : export des dossiers >1000j et archivage en masse','Créer une vue CRM "Pipeline réel" excluant les dossiers >6 mois']},
+  {level:'CRITIQUE',title:'48% des dossiers mettent >14j à être soumis à Worldline',impact:'Retard process interne avant même d\'impliquer WL',
+   desc:'Sur 2 319 dossiers tracés, 48% mettent plus de 14 jours entre la création de l\'opportunité et l\'envoi de l\'email à Worldline. 163 cas mettent plus de 60 jours. WL traite en 8j (médiane) — le goulot est Inocrea, pas WL.',
+   causes:['Pas de SLA interne pour la soumission des dossiers à WL','Documents manquants découverts tardivement (pas de checklist pré-soumission)','Process non formalisé : chaque commercial gère à sa façon'],
+   solutions:['SLA interne : tout dossier signé doit être soumis à WL sous 5 jours ouvrés','Checklist documentaire obligatoire avant soumission (KYC complet, IBAN, carte ID)','Tableau de bord : alerter si un dossier est "en attente WL" depuis >7j sans soumission']},
+  {level:'CRITIQUE',title:'Taux de correction 47% (Cacopardo) et 46% (Vermeulen)',impact:'Coût de traitement doublé · délais allongés · 333 aller-retours évitables',
+   desc:'Biagio Cacopardo génère 213 corrections sur 456 deals gagnés (47%). Dany Vermeulen : 120/259 (46%). Les corrections les plus fréquentes : document manquant, compte bancaire incorrect, mauvais encodage contrat. Chaque correction = un aller-retour avec Worldline ou le client = délai supplémentaire de 1 à 3 semaines.',
+   causes:['Pas de checklist documentaire obligatoire avant soumission WL','Formation KYC insuffisante ou non actualisée','Pas de double-contrôle admin avant envoi à WL'],
+   solutions:['Checklist obligatoire dans CRM avant tout envoi WL : carte ID valide + IBAN + nom gérant BCE + contrat scanné correctement','Session de coaching mensuel sur les corrections par commercial — données disponibles pour chaque réunion','Implémenter un contrôle admin systématique : tout dossier doit être validé par l\'admin avant soumission WL']},
+  {level:'MAJEUR',title:'Give Back : 93j de traitement moyen (max 637j)',impact:'Clients bloqués · WL en attente · CA différé',
+   desc:'290 opportunités Give Back dans le CRM. Le délai moyen de traitement est de 93 jours (médiane 36j, maximum 637 jours). Les raisons sont à 79% "Autre" — inexploitable pour analyser et corriger.',
+   causes:['Raison "Autre" utilisée dans 79% des cas — impossible de catégoriser les vrais problèmes','Pas de SLA sur le traitement des Give Backs','Certains dossiers oubliés et jamais relancés (637j max)'],
+   solutions:['Forcer une raison précise pour chaque Give Back (supprimer "Autre")','SLA : tout Give Back doit être traité sous 30 jours maximum','Alerte automatique si un Give Back n\'a pas bougé depuis >15j']},
+  {level:'MAJEUR',title:'Doublon d\'étape "Rendez-vous pris" / "Rendez vous pris"',impact:'36 dossiers mal classifiés · reporting incorrect',
+   desc:'Deux étapes avec le même nom mais une orthographe différente (avec/sans accent, avec/sans "s"). Elles ne se consolident pas dans les rapports. 36 dossiers sont dans le doublon et n\'apparaissent pas dans la bonne étape.',
+   causes:['Étape créée deux fois dans les paramètres Zoho CRM','Pas de contrôle de cohérence des nomenclatures'],
+   solutions:['Fusionner les 36 dossiers "Rendez vous pris" vers "Rendez-vous pris"','Supprimer l\'étape doublon dans les paramètres CRM','Audit complet des étapes pour détecter d\'autres doublons']},
+  {level:'MAJEUR',title:'Raison correction "Autre" = 50% des cas (578/1 147)',impact:'Données de correction inexploitables pour amélioration',
+   desc:'La moitié des corrections sont catégorisées "Autre" sans description. Il est impossible d\'identifier les patterns récurrents, de former les commerciaux sur les vrais problèmes ou de mesurer l\'amélioration.',
+   causes:['Champ "Raison correction" non obligatoire','Option "Autre" trop facile à sélectionner','Pas de revue mensuelle des corrections avec les commerciaux'],
+   solutions:['Rendre le champ obligatoire avec des sous-catégories détaillées','Supprimer ou conditionner l\'option "Autre" (exiger un commentaire obligatoire)','Réunion mensuelle de revue des corrections par commercial']},
+  {level:'SUIVI',title:'Eurofides déconnecté de Zoho Books',impact:'Suivi recouvrement fragmenté entre 2 systèmes',
+   desc:'139 comptes Eurofides dans le CRM, 115 factures Eurofides dans Books (74 588€). Les deux systèmes ne sont pas réconciliés automatiquement. Une équipe doit faire le rapprochement manuellement.',
+   causes:['Pas d\'intégration CRM ↔ Books sur le champ Eurofides','Process manuel de rapprochement']  ,
+   solutions:['Automatiser la synchronisation : tout compte passé "Recouvrement Eurofides" dans CRM crée un tag dans Books','Rapport hebdomadaire cross-système : montant Eurofides Books vs statut CRM']}
+];
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+const now = new Date();
+document.getElementById('hd-date').textContent =
+  now.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'})
+  + ' · ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+
+// TABLEAU COMMERCIAUX — 6 actifs uniquement
+function renderCommerciauxTable(){
+  const tbody = document.getElementById('comm-table-body');
+  tbody.innerHTML = COMMERCIAUX.map(c => {
+    const corrColor = c.taux_corr > 40 ? 'var(--red-m)' : c.taux_corr > 20 ? 'var(--amber-m)' : 'var(--teal-m)';
+    const retColor = c.ret > 50 ? 'var(--teal-m)' : c.ret > 30 ? 'var(--blue-m)' : 'var(--ink3)';
+    const convColor = c.conv > 50 ? 'var(--teal-m)' : c.conv > 35 ? 'var(--blue-m)' : 'var(--amber-m)';
+    const typeTop = Object.entries(c.types_gagnes).sort((a,b)=>b[1]-a[1])[0][0];
+    return `<tr>
+      <td style="font-weight:500">${c.name}</td>
+      <td class="mn rt">${c.gagnes_2026} <span style="color:var(--ink3);font-size:10px">(${c.conv_2026}%)</span></td>
+      <td class="mn rt" style="color:var(--teal-m)">${c.gagnes}</td>
+      <td class="mn rt" style="color:${convColor}">${c.conv}%</td>
+      <td class="mn rt">${(c.valeur/1000).toFixed(0)}k€</td>
+      <td class="ct"><span style="font-family:var(--mono);font-size:11px;font-weight:600;color:${corrColor}">${c.taux_corr}%</span></td>
+      <td class="ct"><span style="font-family:var(--mono);font-size:11px;color:${retColor}">${c.ret}%</span></td>
+      <td class="ct"><span style="font-family:var(--mono);font-size:11px">${c.cycle_med}j</span></td>
+      <td class="ct"><span style="font-family:var(--mono);font-size:10px;color:var(--wl)">${typeTop}</span></td>
+    </tr>`;
+  }).join('');
+}
+renderCommerciauxTable();
+
+// FICHES COMMERCIAUX DÉTAILLÉES — 6 actifs
+function renderFichesCommerciaux(){
+  const container = document.getElementById('comm-cards');
+  container.innerHTML = COMMERCIAUX.map(c => {
+    const issues = [];
+    if(c.taux_corr > 40) issues.push(`<span class="issue-tag it-r">⚠ CORRECTION ${c.taux_corr}%</span>`);
+    else if(c.taux_corr > 25) issues.push(`<span class="issue-tag it-a">CORRECTION ${c.taux_corr}%</span>`);
+    else issues.push(`<span class="issue-tag it-g">CORRECTION ${c.taux_corr}%</span>`);
+    if(c.ret > 55) issues.push(`<span class="issue-tag it-g">FIDÉLISATION ${c.ret}%</span>`);
+    else if(c.ret < 20) issues.push(`<span class="issue-tag it-b">NOUVEAUX ${100-c.ret}%</span>`);
+    if(c.conv > 50) issues.push(`<span class="issue-tag it-g">CONV ${c.conv}%</span>`);
+    else if(c.conv < 28) issues.push(`<span class="issue-tag it-a">CONV FAIBLE ${c.conv}%</span>`);
+    const scoreColor = c.taux_corr > 40 ? 'var(--red-m)' : c.taux_corr > 25 ? 'var(--amber-m)' : 'var(--teal-m)';
+    const score = Math.round(c.conv * 0.35 + (100-c.taux_corr) * 0.4 + Math.min(c.ret,60) * 0.25);
+
+    // Pipeline par étapes (seulement celles avec données)
+    const pipeItems = Object.entries(c.etapes_pipe).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    const pipeMax = pipeItems[0]?.[1] || 1;
+    const pipeHtml = pipeItems.map(([e,n]) => {
+      const pct = Math.round(n/pipeMax*100);
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <div style="width:120px;font-size:10px;color:var(--ink3);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e}</div>
+        <div style="flex:1;background:var(--paper);border-radius:2px;height:14px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:var(--blue-m);border-radius:2px;display:flex;align-items:center;padding:0 4px;font-family:var(--mono);font-size:9px;color:#fff">${n}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Top corrections
+    const corrItems = Object.entries(c.corr_raisons).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    const corrHtml = corrItems.map(([r,n]) =>
+      `<span style="font-size:10px;background:var(--red-bg);color:var(--red-m);padding:2px 6px;border-radius:4px;margin-right:4px;margin-bottom:3px;display:inline-block">${r} (${n})</span>`
+    ).join('');
+
+    // Types gagnés
+    const typesHtml = Object.entries(c.types_gagnes).filter(([k])=>k!=='ND').map(([k,v]) => {
+      const col = k==='Worldline'?'var(--wl)':k==='Marketpay'?'var(--mp)':k==='Inoresto'?'var(--ino)':'var(--ink3)';
+      return `<span style="font-size:10px;background:var(--paper);color:${col};border:1px solid ${col};padding:2px 7px;border-radius:4px;font-family:var(--mono);font-weight:600">${k} ${v}</span>`;
+    }).join(' ');
+
+    return `<div class="comm-card">
+      <div class="comm-head">
+        <div>
+          <div class="comm-name">${c.name}</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:2px;font-style:italic">${c.profil}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="comm-score" style="color:${scoreColor}">${score}</div>
+          <div style="font-size:9px;color:var(--ink3);font-family:var(--mono)">SCORE</div>
+        </div>
+      </div>
+
+      <div class="comm-grid" style="grid-template-columns:repeat(6,1fr)">
+        <div class="comm-stat"><div class="cv">${c.gagnes_2026}</div><div class="cl">Gagnés 2026</div></div>
+        <div class="comm-stat"><div class="cv" style="color:${c.conv>50?'var(--teal-m)':c.conv>35?'var(--blue-m)':'var(--amber-m)'}">${c.conv}%</div><div class="cl">Conv. hist.</div></div>
+        <div class="comm-stat"><div class="cv" style="color:${c.taux_corr>40?'var(--red-m)':c.taux_corr>25?'var(--amber-m)':'var(--teal-m)'}">${c.taux_corr}%</div><div class="cl">Correction</div></div>
+        <div class="comm-stat"><div class="cv" style="color:${c.ret>50?'var(--teal-m)':c.ret>30?'var(--blue-m)':'var(--ink3)'}">${c.ret}%</div><div class="cl">Rétention</div></div>
+        <div class="comm-stat"><div class="cv">${c.cycle_med}j</div><div class="cl">Cycle méd.</div></div>
+        <div class="comm-stat"><div class="cv">${c.wl_med}j</div><div class="cl">Délai WL</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+        <div>
+          <div style="font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:5px">PIPELINE ACTIF (${c.pipeline} deals · ${(c.val_pipe/1000).toFixed(0)}k€)</div>
+          ${pipeHtml}
+        </div>
+        <div>
+          <div style="font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:5px">TOP CORRECTIONS (${c.corr} total)</div>
+          <div style="flex-wrap:wrap;display:flex">${corrHtml}</div>
+          <div style="margin-top:8px;font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:4px">TYPES GAGNÉS</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${typesHtml}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap">${issues.join('')}</div>
+    </div>`;
+  }).join('');
+}
+renderFichesCommerciaux();
+
+// HEATMAP CORRECTIONS
+function renderCorrHeatmap(){
+  const el = document.getElementById('corr-heatmap');
+  const sorted = [...COMMERCIAUX].filter(c=>c.gagnes>20).sort((a,b)=>b.taux_corr-a.taux_corr);
+  el.innerHTML = sorted.map(c => {
+    const pct = Math.min(c.taux_corr, 100);
+    const col = pct > 40 ? 'var(--red-m)' : pct > 25 ? 'var(--amber-m)' : pct > 10 ? 'var(--blue-m)' : 'var(--teal-m)';
+    return `<div class="hm-row">
+      <div class="hm-lbl">${c.name.split(' ')[0]} ${c.name.split(' ').slice(-1)[0]}</div>
+      <div class="hm-bar"><div style="width:${pct}%;height:100%;background:${col};border-radius:3px;transition:width .8s"></div></div>
+      <div class="hm-val" style="color:${col}">${c.taux_corr}%</div>
+    </div>`;
+  }).join('');
+}
+renderCorrHeatmap();
+
+// HEATMAP RÉTENTION
+function renderRetHeatmap(){
+  const el = document.getElementById('ret-heatmap');
+  const sorted = [...COMMERCIAUX].filter(c=>c.gagnes>50).sort((a,b)=>b.ret-a.ret);
+  el.innerHTML = sorted.map(c => {
+    const col = c.ret > 60 ? 'var(--teal-m)' : c.ret > 40 ? 'var(--blue-m)' : c.ret > 20 ? 'var(--amber-m)' : 'var(--border2)';
+    return `<div class="hm-row">
+      <div class="hm-lbl">${c.name.split(' ')[0]} ${c.name.split(' ').slice(-1)[0]}</div>
+      <div class="hm-bar"><div style="width:${c.ret}%;height:100%;background:${col};border-radius:3px;transition:width .8s"></div></div>
+      <div class="hm-val" style="color:${col}">${c.ret}%</div>
+    </div>`;
+  }).join('');
+}
+renderRetHeatmap();
+
+// FRICTIONS PROFONDES
+(function(){
+  const container = document.getElementById('frictions-deep');
+  FRICTIONS_DEEP.forEach((f,i) => {
+    const bClass = f.level==='CRITIQUE'?'anomaly-box':'warn-box';
+    const tClass = f.level==='CRITIQUE'?'anomaly-title':'warn-title';
+    const bClass2 = f.level==='CRITIQUE'?'anomaly-body':'warn-body';
+    container.innerHTML += `<div class="${bClass}" style="cursor:pointer" onclick="toggleFriction(${i})">
+      <div class="${tClass}" style="justify-content:space-between">
+        <span>${f.level} — ${f.title}</span>
+        <span id="ftog-${i}" style="font-size:11px">▼</span>
+      </div>
+      <div class="${bClass2}" style="margin-bottom:4px">${f.impact}</div>
+      <div id="fbody-${i}" style="display:none;margin-top:8px;border-top:1px solid rgba(0,0,0,.1);padding-top:8px">
+        <div style="font-size:11px;margin-bottom:6px">${f.desc}</div>
+        <div style="font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:inherit;opacity:.7;margin-bottom:4px">Causes</div>
+        ${f.causes.map(c=>`<div style="font-size:11px;margin-bottom:3px;display:flex;gap:6px"><span>→</span>${c}</div>`).join('')}
+        <div style="font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:inherit;opacity:.7;margin:8px 0 4px">Solutions</div>
+        ${f.solutions.map(s=>`<div style="font-size:11px;margin-bottom:4px;display:flex;gap:6px"><span style="font-weight:700">›</span>${s}</div>`).join('')}
+      </div>
+    </div>`;
+  });
+})();
+
+function toggleFriction(i){
+  const body = document.getElementById('fbody-'+i);
+  const tog = document.getElementById('ftog-'+i);
+  const show = body.style.display === 'none';
+  body.style.display = show ? 'block' : 'none';
+  tog.textContent = show ? '▲' : '▼';
+}
+
+// TABS
+function switchTab(name,sBtn,tBtn){
+  document.querySelectorAll('.tc').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
+  const tc=document.getElementById('tab-'+name);if(tc)tc.classList.add('on');
+  if(sBtn)sBtn.classList.add('on');
+  if(tBtn)tBtn.classList.add('on');
+  else document.querySelectorAll('.tb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+name+"'"))b.classList.add('on')});
+}
+
+// ANALYSE IA
+async function go(){
+  const key=document.getElementById('api-key').value.trim();
+  if(!key){alert('Entrez votre clé API Anthropic dans la configuration.');return;}
+  const instr=document.getElementById('instr').value.trim();
+  const today=now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('ov').classList.add('on');document.getElementById('btn-run').disabled=true;
+  const sys=`Tu es le copilote IA de direction d'Inocrea. Tu analyses en profondeur le module opportunités, les commerciaux, les process, Eurofides et le Desk.
+Réponds en JSON strict sans markdown :
+{"synthese":"3-4 phrases sur les manques et frictions les plus critiques",
+"pipeline_opp":{"analyse":"Étapes zombie, cycles, corrections, anomalies structurelles","actions":["A1","A2","A3"]},
+"commerciaux":{"analyse":"Profils, corrections, rétention, qui coache qui","actions":["A1","A2","A3"]},
+"process_wl":{"analyse":"Délais soumission WL, activations bloquées, give backs","actions":["A1","A2"]},
+"eurofides_recouv":{"analyse":"Statuts, montants, déconnexion Books","actions":["A1","A2"]},
+"desk_appels":{"analyse":"Volume, sujets, sortants, efficacité","actions":["A1"]},
+"frictions_top":["Friction #1","Friction #2","Friction #3","Friction #4","Friction #5"],
+"actions_semaine":["Action urgente #1","Action #2","Action #3","Action #4","Action #5"],
+"score_pipeline":35,"score_process":55,"score_commerciaux":62,"score_eurofides":40}`;
+  const usr=`Date : ${today}\n${INOCREA_DEEP}${instr?'\n=== INSTRUCTIONS ===\n'+instr:''}\nGénère l'analyse approfondie en JSON.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,system:sys,messages:[{role:'user',content:usr}]})});
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Erreur API');}
+    const data=await res.json();
+    let raw=data.content.find(b=>b.type==='text')?.text||'';
+    raw=raw.replace(/```json|```/g,'').trim();
+    let r;try{r=JSON.parse(raw);}catch(e){const m=raw.match(/\{[\s\S]*\}/);if(m)r=JSON.parse(m[0]);else throw new Error('Parse JSON échoué.');}
+    showRapport(r,today);
+    addMsg('ai',`✅ Analyse générée — Scores : Pipeline **${r.score_pipeline}%** · Process **${r.score_process}%** · Commerciaux **${r.score_commerciaux}%** · Eurofides **${r.score_eurofides}%**\n\nQue voulez-vous approfondir ?`);
+    switchTab('rapport',null,null);
+  }catch(e){alert('Erreur : '+e.message);}
+  finally{document.getElementById('ov').classList.remove('on');document.getElementById('btn-run').disabled=false;}
+}
+
+function sc(v){return v>=70?'var(--teal-m)':v>=50?'var(--amber-m)':'var(--red-m)';}
+
+function showRapport(r,date){
+  document.getElementById('rpt-date').textContent=date;
+  document.getElementById('rpt-empty').style.display='none';
+  document.getElementById('rpt-content').style.display='block';
+  const sec=document.getElementById('rpt-sections');sec.innerHTML='';
+  sec.innerHTML+=`<div class="card" style="margin-bottom:10px"><div class="ch"><h2>🔭 Synthèse</h2></div><div class="cb" style="font-size:12px;color:var(--ink2);line-height:1.7">${r.synthese}</div></div>`;
+  const scores=[['Pipeline',r.score_pipeline],['Process WL',r.score_process],['Commerciaux',r.score_commerciaux],['Eurofides',r.score_eurofides]];
+  sec.innerHTML+=`<div class="card" style="margin-bottom:10px"><div class="ch"><h2>📊 Scores</h2></div><div class="cb"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">${scores.map(([l,v])=>`<div style="text-align:center"><div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(${sc(v)} ${v}%,var(--paper) 0);display:flex;align-items:center;justify-content:center;margin:0 auto 5px;position:relative"><div style="position:absolute;width:46px;height:46px;border-radius:50%;background:var(--white)"></div><span style="position:relative;font-family:var(--mono);font-size:13px;font-weight:500;color:${sc(v)}">${v}</span></div><div style="font-size:10px;color:var(--ink3)">${l}</div></div>`).join('')}</div></div></div>`;
+  [['📊 Pipeline & Opportunités',r.pipeline_opp,'p-b'],['👤 Commerciaux & Corrections',r.commerciaux,'p-p'],['⚡ Process WL · Activation · GB',r.process_wl,'p-t'],['⚖ Eurofides & Recouvrement',r.eurofides_recouv,'p-a'],['📞 Desk & Appels',r.desk_appels,'p-n']].forEach(([t,s,p])=>{
+    if(!s) return;
+    const acts=(s.actions||[]).map(a=>`<div style="display:flex;gap:6px;font-size:11px;color:var(--ink2);margin-bottom:4px"><span style="color:var(--teal-m);font-weight:700">›</span>${a}</div>`).join('');
+    sec.innerHTML+=`<div class="card" style="margin-bottom:9px"><div class="ch"><h2>${t}</h2><span class="pill ${p}">${p.replace('p-','').toUpperCase()}</span></div><div class="cb"><div style="font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:${acts?'8':'0'}px">${s.analyse}</div>${acts?`<div style="padding-top:8px;border-top:1px solid var(--border)"><div style="font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:6px">Actions</div>${acts}</div>`:''}</div></div>`;
+  });
+  if(r.frictions_top?.length){
+    sec.innerHTML+=`<div class="card" style="margin-bottom:9px"><div class="ch"><h2>🚨 Top 5 frictions</h2></div><div class="cb">${r.frictions_top.map((f,i)=>`<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--paper);align-items:flex-start"><span style="font-family:var(--mono);font-size:11px;color:var(--red-m);font-weight:600;width:16px;flex-shrink:0">${i+1}</span><span style="font-size:12px;color:var(--ink2)">${f}</span></div>`).join('')}</div></div>`;
+  }
+  if(r.actions_semaine?.length){
+    sec.innerHTML+=`<div class="card"><div class="ch"><h2>📅 Actions de la semaine</h2></div><div class="cb">${r.actions_semaine.map((a,i)=>`<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--paper);align-items:flex-start"><span style="font-family:var(--mono);font-size:11px;background:var(--ink);color:#fff;padding:1px 5px;border-radius:3px;flex-shrink:0">${i+1}</span><span style="font-size:12px;color:var(--ink)">${a}</span></div>`).join('')}</div></div>`;
+  }
+}
+
+// CHAT
+let chatHistory=[],chatBusy=false;
+function tNow(){return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+function addMsg(role,text){
+  const c=document.getElementById('chat-messages'),isAI=role==='ai';
+  const div=document.createElement('div');div.className=`msg ${isAI?'ai':'user'}`;
+  const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+  div.innerHTML=`<div class="msg-av ${isAI?'ai':'usr'}">${isAI?'✦':'JN'}</div><div><div class="msg-bubble">${fmt}</div><div class="msg-time">${tNow()}</div></div>`;
+  c.appendChild(div);c.scrollTop=c.scrollHeight;
+}
+function showTyping(){const c=document.getElementById('chat-messages');const d=document.createElement('div');d.className='msg ai';d.id='typ';d.innerHTML='<div class="msg-av ai">✦</div><div><div class="typing"><span></span><span></span><span></span></div></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function removeTyping(){const e=document.getElementById('typ');if(e)e.remove();}
+
+async function sendMsg(){
+  if(chatBusy)return;
+  const input=document.getElementById('chat-input');
+  const key=document.getElementById('api-key').value.trim();
+  const msg=input.value.trim();
+  if(!msg)return;
+  if(!key){alert('Entrez votre clé API Anthropic.');return;}
+  input.value='';input.style.height='32px';
+  addMsg('user',msg);await chat(msg,key);
+}
+async function chat(msg,key){
+  chatBusy=true;document.getElementById('chat-send').disabled=true;document.getElementById('chat-status').textContent='Réflexion…';
+  chatHistory.push({role:'user',content:msg});showTyping();
+  const sys=`Tu es le copilote IA de direction d'Inocrea. Tu as accès aux données approfondies du 14 avril 2026.
+6 COMMERCIAUX ACTIFS (département Commercial) :
+- Mehdi Braham: conv 25%, corr 19%, ret 39%, cycle 44j, pipe 87/25k€, nego 18
+- Jonathan Schoonjans: conv 30%, corr 28%, ret 56%, cycle 37j, pipe 30/32k€, Satis WL = 7 pertes
+- Biagio Cacopardo: conv 35%, corr 47%(CRITIQUE), ret 54%, cycle 34j, pipe 49/40k€
+- Ismaïl Amezian: conv 27%, corr 23%, ret 61%(champion fidélisation), cycle 33j, MP 24 deals, WL med 7j
+- Dany Vermeulen: conv 47%, corr 46%(CRITIQUE), ret 16%, cycle 16j, seul WL+MP+Inoresto
+- Tarik Burazerovic: conv 55%(meilleur), corr 37%, ret 21%, cycle 14j(plus court)
+Délai WL médiane: 8j (s'améliore) · Give Back: 93j moy · Eurofides: 35 dossiers contentieux
+Pipeline réel (depuis 2024): Négociation 69, RDV 119, Prop 0 réelle, Attente WL 24
+Réponds en français, direct, chiffré, max 250 mots. **gras** pour chiffres clés.
+${INOCREA_DEEP}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:sys,messages:chatHistory})});
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Erreur API');}
+    const data=await res.json();
+    const reply=data.content.find(b=>b.type==='text')?.text||'Réponse indisponible.';
+    chatHistory.push({role:'assistant',content:reply});removeTyping();addMsg('ai',reply);
+  }catch(e){removeTyping();addMsg('ai',`❌ ${e.message}`);chatHistory.pop();}
+  finally{chatBusy=false;document.getElementById('chat-send').disabled=false;document.getElementById('chat-status').textContent='En ligne';}
+}
+function askQ(btn){const key=document.getElementById('api-key').value.trim();if(!key){alert('Entrez votre clé API.');return;}document.getElementById('chat-input').value=btn.textContent;sendMsg();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function autoResize(el){el.style.height='32px';el.style.height=Math.min(el.scrollHeight,80)+'px';}
+function toggleQuestions(){
+  const qq=document.getElementById('chat-qq');
+  const tog=document.getElementById('qq-toggle');
+  const hidden=qq.style.display==='none';
+  qq.style.display=hidden?'block':'none';
+  tog.textContent=hidden?'Q ▴':'Q ▾';
+}
+
+// ── LIVE QUOTIDIEN ────────────────────────
+(function initLive(){
+  if(!DATA||!DATA.date){return;}
+  document.getElementById('live-empty').style.display='none';
+  const el=document.getElementById('live-content');
+  el.style.display='block';
+  const {scores:s,pipeline:p,finances:f,desk:d,alertes,gagnes_7j,commerciaux,give_backs_en_attente}=DATA;
+  const crit=alertes.filter(a=>a.niveau==='CRITIQUE').length;
+  const maj=alertes.filter(a=>a.niveau==='MAJEUR').length;
+  const sc=v=>v>=80?'var(--teal-m)':v>=60?'var(--blue-m)':v>=40?'var(--amber-m)':'var(--red-m)';
+  const fmt=n=>typeof n==='number'?n.toLocaleString('fr'):n;
+  el.innerHTML=`
+    <div class="card" style="margin-bottom:12px">
+      <div class="ch"><h2>📡 Live — ${DATA.date} à ${DATA.heure}</h2></div>
+      <div class="cb">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+          ${[['Pipeline',s.pipeline],['Commercial',s.commercial],['Financier',s.financier],['Desk',s.desk],['Global',s.global]].map(([l,v])=>`
+          <div style="text-align:center;padding:10px;background:var(--paper);border-radius:8px">
+            <div style="font-family:var(--mono);font-size:22px;font-weight:600;color:${sc(v)}">${v}</div>
+            <div style="font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">${l}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    ${alertes.length?`<div class="card" style="margin-bottom:12px">
+      <div class="ch"><h2>🚨 Alertes — ${crit} critiques · ${maj} majeures</h2></div>
+      <div class="cb">${alertes.map(a=>{
+        const bg=a.niveau==='CRITIQUE'?'var(--red-bg)':a.niveau==='MAJEUR'?'var(--amber-bg)':'var(--blue-bg)';
+        const col=a.niveau==='CRITIQUE'?'var(--red-m)':a.niveau==='MAJEUR'?'var(--amber-m)':'var(--blue-m)';
+        return `<div style="background:${bg};border-radius:7px;padding:10px 12px;margin-bottom:8px">
+          <div style="font-weight:600;color:${col};font-size:12px">[${a.module}] ${a.titre}</div>
+          <div style="font-size:11px;color:var(--ink2);margin-top:2px">→ ${a.action}</div>
+        </div>`;}).join('')}</div></div>`:''}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div class="card">
+        <div class="ch"><h2>◈ Pipeline</h2></div>
+        <div class="cb">
+          ${[['Négociation',p.negociation],['Rendez-vous pris',p.rdv_pris],['Attente WL',p.attente_wl],['En correction',p.en_correction],['Val. financement',p.val_financement],['Traitement UBO',p.traitement_ubo],['Closing imminent',p.closing_imminent]].map(([l,v])=>`
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px">
+            <span style="color:var(--ink2)">${l}</span>
+            <span style="font-family:var(--mono);font-weight:600">${v}</span>
+          </div>`).join('')}
+          <div style="margin-top:8px;font-size:11px;color:var(--ink3)">Valeur totale : <strong>${fmt(p.valeur_totale)}€</strong></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><h2>📞 Desk</h2></div>
+        <div class="cb">
+          ${[['Tickets aujourd\'hui',d.tickets_jour],['Activations',`${d.activations_jour} (${d.activations_pct}%)`],['Réouverts',d.reouverts_jour],['Tickets anciens >30j',d.tickets_anciens]].map(([l,v])=>`
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px">
+            <span style="color:var(--ink2)">${l}</span>
+            <span style="font-family:var(--mono);font-weight:600">${v}</span>
+          </div>`).join('')}
+          <div style="margin-top:8px;font-size:11px;color:var(--ink3)">DUBAIL : <strong style="color:${d.dubail_age_jours!==null?'var(--red-m)':'var(--teal-m)'}">${d.dubail_age_jours!==null?d.dubail_age_jours+'j ouvert ⚠':'résolu ✓'}</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="ch"><h2>👤 Commerciaux — Gagnés 7j</h2></div>
+      <div class="cb">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead><tr style="font-size:10px;color:var(--ink3);font-family:var(--mono);text-transform:uppercase">
+            <th style="text-align:left;padding:4px 0">Commercial</th>
+            <th style="text-align:right;padding:4px">Gagnés 7j</th>
+            <th style="text-align:right;padding:4px">Pas signés 7j</th>
+            <th style="text-align:right;padding:4px">Corrections 30j</th>
+            <th style="text-align:right;padding:4px">Négo</th>
+            <th style="text-align:right;padding:4px">Val. pipe</th>
+          </tr></thead>
+          <tbody>${Object.entries(commerciaux).map(([nom,c])=>`<tr style="border-top:1px solid var(--border)">
+            <td style="padding:5px 0;font-weight:500">${nom.split(' ')[0]}</td>
+            <td class="rt mn" style="color:var(--teal-m)">${c.gagnes_7j}</td>
+            <td class="rt mn" style="color:var(--red-m)">${c.ps_7j}</td>
+            <td class="rt mn" style="color:${c.corrections_30j>15?'var(--red-m)':c.corrections_30j>5?'var(--amber-m)':'var(--ink3)'}">${c.corrections_30j}</td>
+            <td class="rt mn">${c.en_nego}</td>
+            <td class="rt mn">${fmt(c.val_pipe)}€</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </div>`;
+  document.getElementById('badge-alertes').textContent=crit||'';
+  document.getElementById('badge-alertes').style.display=crit?'':'none';
+})();
+
+</script>
+</body>
+</html>

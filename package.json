@@ -1,0 +1,10 @@
+{
+  "name": "inocrea-dashboard",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "start": "node fetch.js" },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.4.5"
+  }
+}
